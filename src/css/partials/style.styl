@@ -1,0 +1,26 @@
+@import "jeet"
+
+header
+    text-align right
+    nav
+        padding 15px
+        border-bottom()
+        a
+            display inline-block
+            padding 15px
+            color #919292
+            &:hover
+                color darken(#919292, 20)
+                background-color RGBA(0,0,0,.1)
+section
+    .container
+        cf()
+        .side-bar
+            col(1/4)
+            border-right()
+            box-sizing border-box
+            &>*
+                border-bottom()
+        .main
+            col(3/4)
+

@@ -1,0 +1,69 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<title>Main</title>
+<meta name="description" content="">
+<meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+<link rel="stylesheet" href="../bower/normalize.css">
+<!-- inject:css -->
+<!-- endinject -->
+</head>
+<body>
+    <header>
+        <nav>
+            <a href="#">Articles</a>
+            <a href="#">Users</a>
+            <a href="#">Top-5</a>
+            <a href="#">My Profile</a>
+        </nav>
+    </header>
+    <section>
+        <div class="container">
+            <div class="side-bar">
+                <div class="search">
+                    <form action="">
+                        <input type="text" placeholder="Search">
+                    </form>
+                </div>
+                <div class="recent_posts">
+                    Recent posts
+                    <ul>
+                        <li><a href="#">1Post</a></li>
+                        <li><a href="#">2Post</a></li>
+                        <li><a href="#">3Post</a></li>
+                        <li><a href="#">4Post</a></li>
+                        <li><a href="#">5Post</a></li>
+                    </ul>
+                </div>
+                <div class="best_posts">
+                    Best posts
+                    <ul>
+                        <li><a href="#">1Post</a></li>
+                        <li><a href="#">2Post</a></li>
+                        <li><a href="#">3Post</a></li>
+                        <li><a href="#">4Post</a></li>
+                        <li><a href="#">5Post</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="main" data-bind="foreach: posts">
+                <div class="post">
+                    <div class="post_header"><h1 data-bind="text: post_header"></h1></div>
+                    <div class="post_main" data-bind="text: post_main"></div>
+                    <div class="post_footer">
+                        <div class="time" data-bind="text: timestamp"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <footer></footer>
+<!-- bower:js -->
+<!-- endinject -->
+<!-- inject:js -->
+<!-- endinject -->
+</body>
+</html>
+
