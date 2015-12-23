@@ -29,15 +29,6 @@ function ViewModel () {
         self.posts.unshift(new PostsList(self.title(), self.text(), new Date().getTime(), 0, 0));
         self.readVisiblity(true);
     }
-    self.showImg = function () {
-        // self.fileUpload()
-        // console.log(this)
-
-
-
-
-    }
-
 }
 
 function PostsList (title, text, img, timestamp, totalRate, rate) {
@@ -66,4 +57,23 @@ function readURL(input) {
 $("[type='file']").change(function(){
     readURL(this);
 });
-ko.applyBindings(myViewModel);
+ko.applyBindings(myViewModel, document.getElementById('viewModel'));
+
+function Personal () {
+    var self = this;
+    self.firstName = ko.observable('');
+    self.lastName = ko.observable('');
+    self.age = ko.observable('');
+    self.fullName = ko.computed(function () {
+        return self.firstName() + ' ' + self.lastName()
+    });
+    self.profileVisibility = ko.observable(false);
+    self.saveProfile = function () {
+        self.profileVisibility(true)
+    }
+    self.editProfile = function () {
+        self.profileVisibility(false)
+    }
+}
+var personalInfo = new Personal();
+ko.applyBindings(personalInfo, document.getElementById('profile'))

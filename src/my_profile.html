@@ -19,10 +19,9 @@
             <a href="/my_profile.html">My Profile</a>
         </nav>
     </header>
-
-    <section id="viewModel">
+    <section >
         <div class="container">
-            <div class="side-bar">
+            <div class="side-bar" id="viewModel">
                 <div class="search">
                     <form action="">
                         <input type="text" placeholder="Search">
@@ -41,36 +40,42 @@
                     </ul>
                 </div>
             </div>
-            <div class="main">
-                <div class="new_article">
-                    <form action="" data-bind="visible: !readVisiblity()">
+            <div class="main" id="profile">
+                <div >
+                    <form action="" data-bind="visible: !profileVisibility()">
                         <div class="input-wrapper">
-                            <label for="">Title</label>
-                            <input type="text" data-bind="value: title">
+                            <label for="">First Name</label>
+                            <input type="text" data-bind="value: firstName">
                         </div>
                         <div class="input-wrapper">
-
-                            <input type="file" accept="image/png" >
-                            <img src="" alt="" data-bind="attr: { src: img }, visible: $root.img ">
+                            <label for="">Last Name</label>
+                            <input type="text" data-bind="value: lastName">
                         </div>
                         <div class="input-wrapper">
-                            <label for="">Your text</label>
-                            <textarea name="" id="" data-bind="value: text"></textarea>
+                            <label for="">Year of birth</label>
+                            <select name="" id="" data-bind="value: age">
+                                <option value="1999">1999</option>
+                                <option value="1998">1998</option>
+                                <option value="1997">1997</option>
+                                <option value="1996">1996</option>
+                                <option value="1995">1995</option>
+                            </select>
                         </div>
-                        <a href="#" data-bind="click: addPost">Add new article</a>
+                        <div class="input-wrapper">
+                            <label for="male">Male</label>
+                            <input id="male" type="radio" data-bind="">
+                            <label for="female">Female</label>
+                            <input id="female" type="radio" data-bind="">
+                        </div>
+                        <a href="#" data-bind="click: saveProfile">Save</a>
                     </form>
-                    <div class="readable" data-bind="visible: readVisiblity()">
+                    <div class="readable" data-bind="visible: profileVisibility()">
+                        <a href="#" data-bind="click: editProfile">Edit</a>
                         <div class="input-wrapper">
-                            <h1 data-bind="text: title"></h1>
+                            <h1 data-bind="text: fullName"></h1>
                         </div>
-                        <div class="author"></div>
-                        <div class="time"></div>
-                        <div class="input-wrapper">
-                            <img src="" alt="" data-bind="attr: { src: img }, visible: $root.img ">
-                        </div>
-                        <div class="input-wrapper">
-                            <p data-bind="text: text"></p>
-                        </div>
+                        Year of birth
+                        <p data-bind='text: age'></p>
                     </div>
                 </div>
             </div>
