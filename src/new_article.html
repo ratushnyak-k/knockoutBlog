@@ -19,6 +19,7 @@
             <a href="#">My Profile</a>
         </nav>
     </header>
+
     <section>
         <div class="container">
             <div class="side-bar">
@@ -40,16 +41,36 @@
                     </ul>
                 </div>
             </div>
-            <a href="/new_article.html">Add article</a>
-            <div class="main" data-bind="foreach: posts">
-                <div class="post">
-                    <div class="post_header">
-                        <h1 data-bind="text: post_header"></h1>
-                        <div class="time" data-bind="text: time"></div>
-                    </div>
-                    <div class="post_main" data-bind="text: post_main"></div>
-                    <div class="post_footer">
-                        Rate: <select name="" id="" data-bind="options: $parent.rate, value: rate"></select>
+            <div class="main">
+                <div class="new_article">
+                    <form action="" data-bind="visible: !readVisiblity()">
+                        <div class="input-wrapper">
+                            <label for="">Title</label>
+                            <input type="text" data-bind="value: title">
+                        </div>
+                        <div class="input-wrapper">
+
+                            <input type="file" accept="image/*" data-bind="value: fileUpload, event: {change: showImg()}">
+                        </div>
+                        <div class="input-wrapper">
+                            <label for="">Your text</label>
+                            <textarea name="" id="" data-bind="value: text"></textarea>
+                        </div>
+                        <a href="#" data-bind="click: addPost">Add new article</a>
+                    </form>
+                    <div class="readable" data-bind="visible: readVisiblity()">
+                        <div class="input-wrapper">
+                            <h1 data-bind="text: title"></h1>
+                        </div>
+                        <div class="author"></div>
+                        <div class="time"></div>
+                        <div class="input-wrapper">
+                            <img src="" alt="">
+                        </div>
+                        <div class="input-wrapper">
+                            <p data-bind="text: text"></p>
+                        </div>
+
                     </div>
                 </div>
             </div>

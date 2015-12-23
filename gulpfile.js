@@ -28,7 +28,7 @@ var gulp = require('gulp'),
     var path = {
 
         bower: {
-            _src: ['public/bower/knockout.js'
+            _src: ['public/bower/knockout/dist/knockout.js'
             ]
         },
 
