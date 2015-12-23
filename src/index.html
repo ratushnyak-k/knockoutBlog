@@ -13,7 +13,7 @@
 <body>
     <header>
         <nav>
-            <a href="/">Articles</a>
+            <a href="#">Articles</a>
             <a href="#">Users</a>
             <a href="#">Top-5</a>
             <a href="#">My Profile</a>
@@ -36,7 +36,7 @@
                 <div class="best_posts">
                     Best posts
                     <ul data-bind='foreach: postByRate'>
-                        <li><a href="#" data-bind="text: post_header"></a> Rate: <span data-bind="text: rate"></span> star</li>
+                        <li><a href="#" data-bind="text: post_header"></a> Rate: <span data-bind="text: totalRate"></span> ★</li>
                     </ul>
                 </div>
             </div>
@@ -47,9 +47,10 @@
                         <h1 data-bind="text: post_header"></h1>
                         <div class="time" data-bind="text: time"></div>
                     </div>
+                    <img src="" alt="" data-bind="attr: { src: articleImg }, visible: articleImg ">
                     <div class="post_main" data-bind="text: post_main"></div>
                     <div class="post_footer">
-                        Rate: <select name="" id="" data-bind="options: $parent.rate, value: rate"></select>
+                        Rate: <select name="" id="" data-bind="options: $root.rating, value: rate, click: $parent.newRating, $root.numberOfPost($index) "></select>
                     </div>
                 </div>
             </div>

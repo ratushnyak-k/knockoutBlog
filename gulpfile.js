@@ -12,7 +12,7 @@ var gulp = require('gulp'),
     jeet = require('jeet'),
     rupture = require('rupture'),
     sourcemaps = require('gulp-sourcemaps'),
-    rigger = require('gulp-rigger'),
+    // rigger = require('gulp-rigger'),
     cssmin = require('gulp-minify-css'),
     inject = require('gulp-inject'),
     imagemin = require('gulp-imagemin'),
@@ -28,7 +28,8 @@ var gulp = require('gulp'),
     var path = {
 
         bower: {
-            _src: ['public/bower/knockout/dist/knockout.js'
+            _src: ['public/bower/knockout/dist/knockout.js',
+                   'public/bower/jquery/dist/jquery.min.js'
             ]
         },
 

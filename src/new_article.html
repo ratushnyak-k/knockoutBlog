@@ -37,7 +37,7 @@
                 <div class="best_posts">
                     Best posts
                     <ul data-bind='foreach: postByRate'>
-                        <li><a href="#" data-bind="text: post_header"></a> Rate: <span data-bind="text: rate"></span> star</li>
+                        <li><a href="#" data-bind="text: post_header"></a> Rate: <span data-bind="text: totalRate"></span> ★</li>
                     </ul>
                 </div>
             </div>
@@ -50,7 +50,8 @@
                         </div>
                         <div class="input-wrapper">
 
-                            <input type="file" accept="image/*" data-bind="value: fileUpload, event: {change: showImg()}">
+                            <input type="file" accept="image/png" data-bind="event: {change: showImg}">
+                            <img src="" alt="" data-bind="attr: { src: img }, visible: $root.img ">
                         </div>
                         <div class="input-wrapper">
                             <label for="">Your text</label>
@@ -65,12 +66,11 @@
                         <div class="author"></div>
                         <div class="time"></div>
                         <div class="input-wrapper">
-                            <img src="" alt="">
+                            <img src="" alt="" data-bind="attr: { src: img }, visible: $root.img ">
                         </div>
                         <div class="input-wrapper">
                             <p data-bind="text: text"></p>
                         </div>
-
                     </div>
                 </div>
             </div>
