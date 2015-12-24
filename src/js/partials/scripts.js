@@ -4,13 +4,19 @@ function ViewModel () {
     self.text = ko.observable('');
     self.readVisiblity = ko.observable(false);
     self.rating = ko.observableArray([0,1,2,3,4,5]);
+    self.visibleRate = ko.observable(false);
     self.img = ko.observable('');
     self.posts = ko.observableArray(
         [
-            new PostsList("First", 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Maiores modi sunt blanditiis quasi saepe aut, facere fugiat assumenda repudiandae voluptatem, nulla amet, non omnis iure fugit laborum inventore. Adipisci, mollitia.', '', (new Date().getTime() + 100000), 0, 0),
-            new PostsList("Second", 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dolores ipsam quia eos tempore, officia facere maxime nobis voluptatem quaerat, magnam, reiciendis at molestiae doloremque hic voluptatibus corporis accusantium quod repellat.', 'img/success.png', (new Date().getTime() + 50000), 4, 0),
-            new PostsList("Third", 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Incidunt veritatis ipsum atque quis, repellendus aliquam error. Minima nobis culpa iste, libero, laboriosam quam a accusantium, nostrum consequuntur accusamus, incidunt praesentium.', 'img/success.png', new Date().getTime(), 1, 0),
+            new PostsList("First", 'Lorem.', '', (new Date().getTime() + 100000), 0, 0),
+            new PostsList("Second", 'Lorem', 'img/success.png', (new Date().getTime() + 50000), 4, 0),
+            new PostsList("Third", 'Lore.', 'img/success.png', new Date().getTime(), 1, 0),
         ]);
+    self.onChangeRate = function () {
+        self.posts.subscribe(function () {
+
+        })
+    }
     self.postByRate = ko.computed(function () {
         var sortPosts = self.posts().slice();
 
@@ -19,16 +25,17 @@ function ViewModel () {
         });
 
         return sortPosts
-    }, this)
+    }, this);
     self.newRating = function () {
+        self.visibleRate(true)
         // TODO: make count of people who rated
-        console.log(self.numberOfPost())
+        // console.log(self.numberOfPost())
         // self.posts()[self.numberOfPost].totalRate = ((this.totalRate + this.rate) / 2);
-    }
+    };
     self.addPost = function () {
         self.posts.unshift(new PostsList(self.title(), self.text(), new Date().getTime(), 0, 0));
         self.readVisiblity(true);
-    }
+    };
 }
 
 function PostsList (title, text, img, timestamp, totalRate, rate) {
@@ -41,7 +48,6 @@ function PostsList (title, text, img, timestamp, totalRate, rate) {
     self.totalRate = totalRate;
     self.rate = rate;
 }
-var myViewModel = new ViewModel();
 function readURL(input) {
 
     if (input.files && input.files[0]) {
@@ -54,9 +60,13 @@ function readURL(input) {
         reader.readAsDataURL(input.files[0]);
     }
 }
+
+
 $("[type='file']").change(function(){
     readURL(this);
 });
+
+var myViewModel = new ViewModel();
 ko.applyBindings(myViewModel, document.getElementById('viewModel'));
 
 function Personal () {
@@ -67,13 +77,24 @@ function Personal () {
     self.fullName = ko.computed(function () {
         return self.firstName() + ' ' + self.lastName()
     });
+    self.radioSelectedOptionValue = ko.observable(true);
+    self.A = ko.computed( {
+            read: function() {
+                return self.radioSelectedOptionValue() == "true";
+            },
+            write: function(value) {
+                if (value)
+                    self.radioSelectedOptionValue("true");
+            }
+        }, this);
     self.profileVisibility = ko.observable(false);
     self.saveProfile = function () {
         self.profileVisibility(true)
-    }
+    };
     self.editProfile = function () {
         self.profileVisibility(false)
-    }
+    };
 }
+
 var personalInfo = new Personal();
 ko.applyBindings(personalInfo, document.getElementById('profile'))

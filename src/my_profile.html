@@ -63,19 +63,21 @@
                         </div>
                         <div class="input-wrapper">
                             <label for="male">Male</label>
-                            <input id="male" type="radio" data-bind="">
+                            <input id="male" type="radio" name="radiobutton" value="true" data-bind="checked: radioSelectedOptionValue" >
                             <label for="female">Female</label>
-                            <input id="female" type="radio" data-bind="">
+                            <input id="female" type="radio" name="radiobutton" value="false" data-bind="checked: radioSelectedOptionValue" >
                         </div>
-                        <a href="#" data-bind="click: saveProfile">Save</a>
+                        <button data-bind="enable: firstName().length > 0, click: saveProfile">Save</button>
                     </form>
                     <div class="readable" data-bind="visible: profileVisibility()">
-                        <a href="#" data-bind="click: editProfile">Edit</a>
                         <div class="input-wrapper">
                             <h1 data-bind="text: fullName"></h1>
+                            <a href="#" data-bind="click: editProfile">Edit</a>
                         </div>
                         Year of birth
                         <p data-bind='text: age'></p>
+                        Gender
+                        <p data-bind="text: "></p>
                     </div>
                 </div>
             </div>

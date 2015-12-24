@@ -50,7 +50,8 @@
                     <img src="" alt="" data-bind="attr: { src: articleImg }, visible: articleImg ">
                     <div class="post_main" data-bind="text: post_main"></div>
                     <div class="post_footer">
-                        Rate: <select name="" id="" data-bind="options: $root.rating, value: rate, click: $parent.newRating, $root.numberOfPost($index) "></select>
+                        Rate: <select name="" id="" data-bind="options: $root.rating, value: rate, visible: !$root.visibleRate()"></select>
+                        <span data-bind="text: rate"></span> ★
                     </div>
                 </div>
             </div>
