@@ -3,50 +3,55 @@ function ViewModel () {
     self.title = ko.observable('');
     self.text = ko.observable('');
     self.readVisiblity = ko.observable(false);
+    self.visibleRate = ko.observable(true);
     self.rating = ko.observableArray([0,1,2,3,4,5]);
-    self.visibleRate = ko.observable(false);
     self.img = ko.observable('');
     self.posts = ko.observableArray(
         [
-            new PostsList("First", 'Lorem.', '', (new Date().getTime() + 100000), 0, 0),
-            new PostsList("Second", 'Lorem', 'img/success.png', (new Date().getTime() + 50000), 4, 0),
-            new PostsList("Third", 'Lore.', 'img/success.png', new Date().getTime(), 1, 0),
-        ]);
-    self.onChangeRate = function () {
-        self.posts.subscribe(function () {
+            new PostsList("First", 'Lorem.', '', (new Date().getTime() + 100000), 0, 0, 4),
+            new PostsList("Second", 'Lorem', 'img/success.png', (new Date().getTime() + 50000), 24, 0, 7),
+            new PostsList("Third", 'Loresgdfg', 'img/success.png', new Date().getTime(), 144, 0, 35),
+            new PostsList("Fourth", 'Loredsfg.', 'img/success.png', new Date().getTime(), 154, 0, 134),
+            new PostsList("Fifth", 'Lorgfdde.', 'img/success.png', new Date().getTime(), 14, 0, 4)
+        ]
+    );
 
-        })
-    }
+    self.onChangeRate = function (a,b,c) {
+
+        this.ratingSetted(true);
+        this.totalRate(parseFloat(((this.commonRate + this.rate()) / (this.countPeopleRate + 1)).toFixed(2)));
+    };
+
     self.postByRate = ko.computed(function () {
         var sortPosts = self.posts().slice();
 
         sortPosts.sort(function(x, y){
-            return y.totalRate - x.totalRate;
+            return y.totalRate() - x.totalRate();
         });
 
-        return sortPosts
+        return sortPosts.splice(0, 5)
     }, this);
-    self.newRating = function () {
-        self.visibleRate(true)
-        // TODO: make count of people who rated
-        // console.log(self.numberOfPost())
-        // self.posts()[self.numberOfPost].totalRate = ((this.totalRate + this.rate) / 2);
-    };
+
     self.addPost = function () {
-        self.posts.unshift(new PostsList(self.title(), self.text(), new Date().getTime(), 0, 0));
+        self.posts.unshift(new PostsList(self.title(), self.text(), self.img(), new Date().getTime(), 0, 0, 0));
         self.readVisiblity(true);
     };
-}
+};
 
-function PostsList (title, text, img, timestamp, totalRate, rate) {
+function PostsList (title, text, img, timestamp, totalRate, rate, countPeopleRate) {
     var self = this
     self.post_header = title;
     self.post_main = text;
     self.articleImg = img;
     self.timestamp = timestamp;
     self.time = new Date(timestamp).toString();
-    self.totalRate = totalRate;
-    self.rate = rate;
+    self.countPeopleRate = countPeopleRate;
+    self.conditionCountPeopleRate = countPeopleRate || 1;
+    self.commonRate = totalRate;
+    var proccessingRate = parseFloat((totalRate / self.conditionCountPeopleRate).toFixed(2));
+    self.totalRate = ko.observable(proccessingRate);
+    self.rate = ko.observable(rate);
+    self.ratingSetted = ko.observable(false);
 }
 function readURL(input) {
 
@@ -77,16 +82,7 @@ function Personal () {
     self.fullName = ko.computed(function () {
         return self.firstName() + ' ' + self.lastName()
     });
-    self.radioSelectedOptionValue = ko.observable(true);
-    self.A = ko.computed( {
-            read: function() {
-                return self.radioSelectedOptionValue() == "true";
-            },
-            write: function(value) {
-                if (value)
-                    self.radioSelectedOptionValue("true");
-            }
-        }, this);
+    self.gender = ko.observable('');
     self.profileVisibility = ko.observable(false);
     self.saveProfile = function () {
         self.profileVisibility(true)
