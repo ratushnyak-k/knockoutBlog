@@ -45,35 +45,49 @@
                     <form action="" data-bind="visible: !profileVisibility()">
                         <div class="input-wrapper">
                             <label for="">First Name</label>
-                            <input type="text" data-bind="value: firstName">
+                            <input type="text" data-bind="value: firstName, validation: isValidate, firstName: firstName">
+                            <div class="error"></div>
                         </div>
                         <div class="input-wrapper">
                             <label for="">Last Name</label>
-                            <input type="text" data-bind="value: lastName">
+                            <input type="text" data-bind="value: lastName, validation: isValidate, lastName: lastName">
+                            <div class="error"></div>
+                        </div>
+                        <div class="input-wrapper">
+                            <label for="email">Email</label>
+                            <input type="text" data-bind="value: email, validation: isValidate, email: email">
+                            <div class="error"></div>
+
                         </div>
                         <div class="input-wrapper">
                             <label for="">Year of birth</label>
-                            <select name="" id="" data-bind="value: age">
+                            <select name="" id="" data-bind="value: age, validation: isValidate, age: age">
+                                <option value="">----</option>
                                 <option value="1999">1999</option>
                                 <option value="1998">1998</option>
                                 <option value="1997">1997</option>
                                 <option value="1996">1996</option>
                                 <option value="1995">1995</option>
                             </select>
+                            <div class="error"></div>
                         </div>
                         <div class="input-wrapper">
                             <label for="male">Male</label>
-                            <input id="male" type="radio" name="radiobutton" value="Male" data-bind="checked: gender" >
+                            <input id="male" type="radio" name="radiobutton" value="Male" data-bind="checked: gender, validation: isValidate, gender: gender" >
                             <label for="female">Female</label>
-                            <input id="female" type="radio" name="radiobutton" value="Female" data-bind="checked: gender" >
+                            <input id="female" type="radio" name="radiobutton" value="Female" data-bind="checked: gender, validation: isValidate, gender: gender " >
+                            <div class="error"></div>
                         </div>
-                        <button data-bind="enable: firstName().length > 0 && lastName().length > 0 && age().length > 0 && gender, click: saveProfile">Save</button>
+
+                        <button data-bind="click: saveProfile">Save</button>
                     </form>
                     <div class="readable" data-bind="visible: profileVisibility()">
                         <div class="input-wrapper">
                             <h1 data-bind="text: fullName"></h1>
                             <a href="#" data-bind="click: editProfile">Edit</a>
                         </div>
+                        Email:
+                        <span data-bind="text: email"></span><br>
                         Year of birth:
                         <span data-bind='text: age'></span><br>
                         Gender:

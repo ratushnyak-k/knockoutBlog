@@ -79,18 +79,95 @@ function Personal () {
     self.firstName = ko.observable('');
     self.lastName = ko.observable('');
     self.age = ko.observable('');
+    self.email = ko.observable('');
     self.fullName = ko.computed(function () {
         return self.firstName() + ' ' + self.lastName()
     });
     self.gender = ko.observable('');
     self.profileVisibility = ko.observable(false);
+    self.validated = ko.observable(false)
     self.saveProfile = function () {
-        self.profileVisibility(true)
+        self.isValidate(true);
+        if (self.validated()) {
+            self.profileVisibility(true)
+        };
     };
     self.editProfile = function () {
         self.profileVisibility(false)
     };
+    self.isValidate = ko.observable(false);
 }
+var firstNameField, lastNameField, email, ageField, genderField;
+ko.bindingHandlers.validation = {
+    update: function (element, valueAccessor, allBindings, bindingContext) {
+        var valueUnwrapped = ko.unwrap(valueAccessor());
+        function errorValidate (element, text) {
+            $(element).next('.error').html(text);
+        }
+        var firstNameRegEx = /^[a-zA-Z ]+$/;
+        var emailRegEx = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        if (valueUnwrapped) {
+            if (allBindings.has('firstName')) {
+                if(!bindingContext.firstName()) {
+                    errorValidate(element, 'This field is required');
+                } else {
+                    errorValidate(element, '');
+                    if(firstNameRegEx.test(bindingContext.firstName())) {
+                        errorValidate(element, '');
+                        firstNameField = true;
 
+                    } else {
+                        errorValidate(element, 'This is not a name')
+                    }
+                }
+            }
+            if (allBindings.has('lastName')) {
+                if(!bindingContext.lastName()) {
+                    errorValidate(element, 'This field is required');
+                } else {
+                    errorValidate(element, '');
+                    if(firstNameRegEx.test(bindingContext.lastName())) {
+                        errorValidate(element, '');
+                        lastNameField = true;
+                    } else {
+                        errorValidate(element, 'This is not a name')
+                    }
+                }
+            }
+            if (allBindings.has('email')) {
+                if(!bindingContext.email()) {
+                    errorValidate(element, 'This field is required');
+                } else {
+                    errorValidate(element, '');
+                    if(emailRegEx.test(bindingContext.email())) {
+                        errorValidate(element, '');
+                        email = true;
+                    } else {
+                        errorValidate(element, 'This is not an email')
+                    }
+                }
+            }
+            if (allBindings.has('age')) {
+                if(!bindingContext.age()) {
+                    errorValidate(element, 'Please, select your age');
+                } else {
+                    errorValidate(element, '');
+                    ageField = true;
+                }
+            }
+            if (allBindings.has('gender')) {
+                if(!bindingContext.gender()) {
+                    errorValidate(element, 'Please, select your gender');
+                } else {
+                    errorValidate(element, '');
+                    genderField = true;
+                }
+            }
+            if (firstNameField && lastNameField && email && ageField && genderField) {
+                personalInfo.validated(true)
+            };
+        };
+    }
+};
 var personalInfo = new Personal();
 ko.applyBindings(personalInfo, document.getElementById('profile'))
