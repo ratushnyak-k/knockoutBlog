@@ -13,15 +13,15 @@
 <body>
     <header>
         <nav>
-            <a href="#">Articles</a>
+            <a href="/">Articles</a>
             <a href="/users.html">Users</a>
             <a href="/search.html">Search</a>
             <a href="/my_profile.html">My Profile</a>
         </nav>
     </header>
-    <section id="viewModel">
-        <div class="container">
-            <div class="side-bar">
+    <section >
+        <div class="container user_page">
+            <div class="side-bar" id="viewModel">
                 <div class="recent_posts">
                     <h2>Recent posts:</h2>
                     <ul data-bind='foreach: posts'>
@@ -51,26 +51,23 @@
                     </ul>
                 </div>
             </div>
-            <a href="/new_article.html" class="add_article">Add article</a>
-            <div class="main" data-bind="foreach: posts">
-                <div class="post">
-                    <div class="post_header">
-                        <h1><a data-bind="text: post_header, attr : { href: 'article_detail.html'+'#'+$index() }"></a></h1>
-                        <div class="author-wrap">
-                            Author: <a class="author" href="#" data-bind="text: author, event: { click: $root.authorIsVisible, mouseleave: $root.authorIsNotVisible }"></a>
-                            <img alt="" class="author-visible" data-bind="visible: authorVisibility, attr: { src: ava }">
-                        </div>
-                        <div class="time" data-bind="text: time"></div>
-                    </div>
-                    <a data-bind="attr : { href: 'article_detail.html'+'#'+$index() }">
-                        <img src="" alt="" data-bind="attr: { src: articleImg }, visible: articleImg ">
-                    </a>
-                    <div class="post_main" data-bind="text: post_main_cut"></div>
-                    <div class="post_footer">
-                        Rate: <select name="" id="" data-bind="options: $root.rating, value: rate, visible: !ratingSetted(), event: { change: $root.onChangeRate }"></select>
-                        <span data-bind="text: rate, visible: ratingSetted()"></span> ★
-                    </div>
+            <div class="main" id="users">
+                <div class="search">
+                    <form action="">
+                        <input type="text" placeholder="Search by users" data-bind="value: queryUser, valueUpdate: 'keyup'">
+                    </form>
                 </div>
+                <ul class="user" data-bind="foreach: searchResultsPost">
+                    <li>
+                        <img data-bind='attr: { src : ava }' alt="">
+                        <h2 data-bind="text: fullName"></h2>
+                        Age: <span data-bind="text: age"></span><br>
+                        Gender: <span data-bind="text: gender"></span><br>
+                        Email: <span data-bind="text: email"></span><br>
+                        Count of articles: <span data-bind="text: countOfArticles"></span>
+
+                    </li>
+                </ul>
             </div>
         </div>
     </section>

@@ -14,29 +14,40 @@
     <header>
         <nav>
             <a href="/">Articles</a>
-            <a href="#">Users</a>
-            <a href="#">Top-5</a>
+            <a href="/users.html">Users</a>
+            <a href="/search.html">Search</a>
             <a href="/my_profile.html">My Profile</a>
         </nav>
     </header>
     <section >
         <div class="container">
             <div class="side-bar" id="viewModel">
-                <div class="search">
-                    <form action="">
-                        <input type="text" placeholder="Search">
-                    </form>
-                </div>
                 <div class="recent_posts">
-                    Recent posts
+                    <h2>Recent posts:</h2>
                     <ul data-bind='foreach: posts'>
-                        <li><a href="#" data-bind="text: post_header"></a></li>
+                        <li>
+                            <a href="#" data-bind="text: post_header"></a>
+                            <span class="rate"> -
+                                <span data-bind="text: totalRate"></span> ★
+                            </span>
+                            <div class="author-wrap">Author:
+                                <a class="author" href="#" data-bind="text: author"></a>
+                            </div>
+                        </li>
                     </ul>
                 </div>
                 <div class="best_posts">
-                    Best posts
+                    <h2>Best posts:</h2>
                     <ul data-bind='foreach: postByRate'>
-                        <li><a href="#" data-bind="text: post_header"></a> Rate: <span data-bind="text: totalRate"></span> ★</li>
+                        <li>
+                            <a href="#" data-bind="text: post_header"></a>
+                            <span class="rate"> -
+                                <span data-bind="text: totalRate"></span> ★
+                            </span>
+                            <div class="author-wrap">Author:
+                                <a class="author" href="#" data-bind="text: author"></a>
+                            </div>
+                        </li>
                     </ul>
                 </div>
             </div>
@@ -54,13 +65,17 @@
                             <div class="error"></div>
                         </div>
                         <div class="input-wrapper">
+                            <input type="file">
+                            <img src="" alt="" data-bind="attr: { src: ava }">
+                        </div>
+                        <div class="input-wrapper">
                             <label for="email">Email</label>
                             <input type="text" data-bind="value: email, validation: isValidate, email: email">
                             <div class="error"></div>
 
                         </div>
                         <div class="input-wrapper">
-                            <label for="">Year of birth</label>
+                            <label for="" style="display: block;">Year of birth</label>
                             <select name="" id="" data-bind="value: age, validation: isValidate, age: age">
                                 <option value="">----</option>
                                 <option value="1999">1999</option>
@@ -84,7 +99,8 @@
                     <div class="readable" data-bind="visible: profileVisibility()">
                         <div class="input-wrapper">
                             <h1 data-bind="text: fullName"></h1>
-                            <a href="#" data-bind="click: editProfile">Edit</a>
+                            <a href="#" data-bind="click: editProfile">Edit</a><br>
+                            <img src="" alt="" data-bind="attr: { src: ava }" style="width: 150px;">
                         </div>
                         Email:
                         <span data-bind="text: email"></span><br>

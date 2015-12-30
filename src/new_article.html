@@ -14,29 +14,40 @@
     <header>
         <nav>
             <a href="/">Articles</a>
-            <a href="#">Users</a>
-            <a href="#">Top-5</a>
+            <a href="/users.html">Users</a>
+            <a href="/search.html">Search</a>
             <a href="/my_profile.html">My Profile</a>
         </nav>
     </header>
     <section id="viewModel">
         <div class="container">
             <div class="side-bar">
-                <div class="search">
-                    <form action="">
-                        <input type="text" placeholder="Search">
-                    </form>
-                </div>
                 <div class="recent_posts">
-                    Recent 5 posts
+                    <h2>Recent posts:</h2>
                     <ul data-bind='foreach: posts'>
-                        <li><a href="#" data-bind="text: post_header"></a></li>
+                        <li>
+                            <a href="#" data-bind="text: post_header"></a>
+                            <span class="rate"> -
+                                <span data-bind="text: totalRate"></span> ★
+                            </span>
+                            <div class="author-wrap">Author:
+                                <a class="author" href="#" data-bind="text: author"></a>
+                            </div>
+                        </li>
                     </ul>
                 </div>
                 <div class="best_posts">
-                    Best 5 posts
+                    <h2>Best posts:</h2>
                     <ul data-bind='foreach: postByRate'>
-                        <li><a href="#" data-bind="text: post_header"></a> Rate: <span data-bind="text: totalRate"></span> ★</li>
+                        <li>
+                            <a href="#" data-bind="text: post_header"></a>
+                            <span class="rate"> -
+                                <span data-bind="text: totalRate"></span> ★
+                            </span>
+                            <div class="author-wrap">Author:
+                                <a class="author" href="#" data-bind="text: author"></a>
+                            </div>
+                        </li>
                     </ul>
                 </div>
             </div>
@@ -62,8 +73,6 @@
                         <div class="input-wrapper">
                             <h1 data-bind="text: title"></h1>
                         </div>
-                        <div class="author"></div>
-                        <div class="time"></div>
                         <div class="input-wrapper">
                             <img src="" alt="" data-bind="attr: { src: img }, visible: $root.img ">
                         </div>
