@@ -15,6 +15,7 @@ function Comment (author, authorAva, text, time) {
     self.ava = authorAva;
     self.commentText = ko.observable(text);
     self.commentTime = time;
+    self.editCommentVisibility = ko.observable(false);
 }
 function Personal (firstName, lastName, age, Ava, email, gender, CountOfArticles) {
     var self = this;
@@ -147,10 +148,26 @@ function ViewModel () {
             new Comment(Alex.fullName(), Alex.ava(), 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Distinctio, officiis?', new Date()),
         ]
     );
-    self.newComment = ko.observable('');
+    self.newCommentText = ko.observable('');
+    self.editedCommentText = ko.observable('');
+
     self.addComment = function () {
-        self.commentsArray.unshift(new Comment(myInfo.fullName(), myInfo.ava(), self.newComment(), new Date()));
-        self.newComment('');
+        self.commentsArray.unshift(new Comment(myInfo.fullName(), myInfo.ava(), self.newCommentText(), new Date()));
+        self.newCommentText('');
+    };
+
+    self.editComment = function () {
+        this.editCommentVisibility(true);
+        self.editedCommentText(this.commentText());
+    };
+
+    self.saveEditedComment = function () {
+        this.commentText(self.editedCommentText());
+        this.editCommentVisibility(false);
+    };
+
+    self.deleteComment = function () {
+        self.commentsArray.remove(this);
     };
 }
 

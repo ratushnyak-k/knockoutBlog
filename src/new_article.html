@@ -56,7 +56,7 @@
                     <form action="" data-bind="visible: !readVisiblity()">
                         <div class="input-wrapper">
                             <label for="">Title</label>
-                            <input type="text" data-bind="value: title">
+                            <input type="text" data-bind="value: title, valueUpdate: 'keyup'">
                         </div>
                         <div class="input-wrapper">
 
@@ -65,7 +65,7 @@
                         </div>
                         <div class="input-wrapper">
                             <label for="">Your text</label>
-                            <textarea name="" id="" data-bind="value: text"></textarea>
+                            <textarea name="" id="" data-bind="value: text, valueUpdate: 'keyup'"></textarea>
                         </div>
                         <button data-bind="enable: title().length > 0, click: addPost">Add new article</button>
                     </form>

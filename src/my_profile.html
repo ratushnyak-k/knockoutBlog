@@ -56,12 +56,12 @@
                     <form action="" data-bind="visible: !profileVisibility()">
                         <div class="input-wrapper">
                             <label for="">First Name</label>
-                            <input type="text" data-bind="value: firstName, validation: isValidate, firstName: firstName">
+                            <input type="text" data-bind="value: firstName, validation: isValidate, firstName: firstName, valueUpdate: 'keyup'">
                             <div class="error"></div>
                         </div>
                         <div class="input-wrapper">
                             <label for="">Last Name</label>
-                            <input type="text" data-bind="value: lastName, validation: isValidate, lastName: lastName">
+                            <input type="text" data-bind="value: lastName, validation: isValidate, lastName: lastName, valueUpdate: 'keyup'">
                             <div class="error"></div>
                         </div>
                         <div class="input-wrapper">
@@ -70,7 +70,7 @@
                         </div>
                         <div class="input-wrapper">
                             <label for="email">Email</label>
-                            <input type="text" data-bind="value: email, validation: isValidate, email: email">
+                            <input type="text" data-bind="value: email, validation: isValidate, email: email, valueUpdate: 'keyup'">
                             <div class="error"></div>
 
                         </div>
