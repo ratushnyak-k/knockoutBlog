@@ -52,7 +52,7 @@
                 </div>
             </div>
             <div class="main" data-bind="foreach: dataOnHash">
-                <div class="">
+                <div>
                     <div class="input-wrapper">
                         <h1 data-bind="text: post_header"></h1>
                     </div>
@@ -60,6 +60,32 @@
                     <div class="time" data-bind="text: time"></div>
                     <img src="" alt="" data-bind="attr: { src: articleImg }, visible: articleImg ">
                     <div class="post_main" data-bind="text: post_main"></div>
+                </div>
+                <hr>
+                <div class="comments_block">
+                    <form action="">
+                        <label for="">Add your comment</label>
+                        <textarea id="commentInput" data-bind="value: $root.newComment"></textarea>
+                        <button data-bind="click: $root.addComment">Add comment</button>
+                    </form>
+                    <hr>
+                    <div class="comment_wrapper" data-bind="foreach: $root.commentsArray">
+                        <div class="comment" >
+                            <div class="ava-block">
+                                <img data-bind="attr: { src: ava }" alt="">
+                            </div>
+                            <div class="text-block">
+                                <div class="head-comment">
+                                    <div data-bind="text: commentAuthor"></div>
+                                    <div class="time" data-bind="text: commentTime"></div>
+                                </div>
+                                <hr>
+                                <div class="text-comment" data-bind="text: commentText"></div>
+                                <hr>
+                                <div class="foot-comment"></div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

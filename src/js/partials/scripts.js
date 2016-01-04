@@ -9,7 +9,13 @@ var thisHash = window.location.hash;
 if (thisHash) {
     thisHash = parseFloat(thisHash.slice(1));
 }
-
+function Comment (author, authorAva, text, time) {
+    var self = this;
+    self.commentAuthor = author;
+    self.ava = authorAva;
+    self.commentText = ko.observable(text);
+    self.commentTime = time;
+}
 function Personal (firstName, lastName, age, Ava, email, gender, CountOfArticles) {
     var self = this;
     self.firstName = ko.observable(firstName);
@@ -131,6 +137,21 @@ function ViewModel () {
         }
     });
 
+    self.commentsArray = ko.observableArray(
+        [
+            new Comment(myInfo.fullName(), myInfo.ava(), 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Distinctio, officiis?', new Date()),
+            new Comment(Ivan.fullName(), Ivan.ava(), 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Distinctio, officiis?', new Date()),
+            new Comment(Dmitry.fullName(), Dmitry.ava(), 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Distinctio, officiis?', new Date()),
+            new Comment(Ruslan.fullName(), Ruslan.ava(), 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Distinctio, officiis?', new Date()),
+            new Comment(Artem.fullName(), Artem.ava(), 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Distinctio, officiis?', new Date()),
+            new Comment(Alex.fullName(), Alex.ava(), 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Distinctio, officiis?', new Date()),
+        ]
+    );
+    self.newComment = ko.observable('');
+    self.addComment = function () {
+        self.commentsArray.unshift(new Comment(myInfo.fullName(), myInfo.ava(), self.newComment(), new Date()));
+        self.newComment('');
+    };
 }
 
 function PostsList (title, text, img, author, ava, timestamp, totalRate, rate, countPeopleRate) {
@@ -171,7 +192,6 @@ function readURL(input, whatModel) {
     }
 }
 
-
 $('#fileInput').change( function () {
     var whatModel = $('#profile').length;
     readURL(this, whatModel);
@@ -182,8 +202,8 @@ if (document.getElementById('viewModel')) {
     ko.applyBindings(myViewModel, document.getElementById('viewModel'));
 }
 
-
 var firstNameField, lastNameField, email, ageField, genderField;
+
 ko.bindingHandlers.validation = {
     update: function (element, valueAccessor, allBindings, bindingContext) {
         var valueUnwrapped = ko.unwrap(valueAccessor());
@@ -264,7 +284,6 @@ ko.bindingHandlers.validation = {
     }
 };
 
-
 var personalInfo = new Personal();
 if (document.getElementById('profile')) {
     ko.applyBindings(personalInfo, document.getElementById('profile'));
@@ -286,3 +305,17 @@ var usersList = new Users();
 if (document.getElementById('users')) {
     ko.applyBindings(usersList, document.getElementById('users'));
 }
+
+// function Comments () {
+//     var self = this;
+
+
+// }
+
+
+
+// var commentsModel = new Comments();
+
+// if ($('#comments').length) {
+//     ko.applyBindings(commentsModel, document.getElementById('comments'))
+// }
