@@ -69,12 +69,11 @@
                         <button data-bind="enable: $root.newCommentText().length, click: $root.addComment">Add comment</button>
                     </form>
 
-                    <div class="comment_wrapper" data-bind="foreach: $root.commentsArray">
+                    <div class="comment_wrapper" data-bind="foreach: commentsArray">
                         <div class="comment" >
                             <div class="ava-block">
                                 <img data-bind="attr: { src: ava }" alt="">
                             </div>
-                            <a href="#" class="remove" data-bind="click: $root.deleteComment">✖</a>
                             <div class="text-block">
                                 <div class="head-comment">
                                     <div data-bind="text: commentAuthor"></div>
@@ -90,6 +89,7 @@
                                 <hr>
                                 <div class="foot-comment">
                                     <a href="#" data-bind="click: $root.editComment, visible: !editCommentVisibility()">Edit</a>
+                                    <a href="#" class="remove" data-bind="click: $root.deleteComment">✖</a>
                                 </div>
                             </div>
                         </div>
