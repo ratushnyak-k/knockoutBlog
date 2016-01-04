@@ -67,7 +67,7 @@
                             <label for="">Your text</label>
                             <textarea name="" id="" data-bind="value: text, valueUpdate: 'keyup'"></textarea>
                         </div>
-                        <button data-bind="enable: title().length > 0, click: addPost">Add new article</button>
+                        <button data-bind="enable: title().length && text().length, click: addPost">Add new article</button>
                     </form>
                     <div class="readable" data-bind="visible: readVisiblity()">
                         <div class="input-wrapper">
