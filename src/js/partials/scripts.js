@@ -227,10 +227,11 @@ ko.bindingHandlers.validation = {
         function errorValidate (element, text) {
 
             if (text) {
-                $(element).closest('.form-group').addClass('has-error');
+                $(element).closest('.form-group').attr('class', 'form-group has-error');
                 $(element).next('.help-block').html(text);
             } else {
-                $(element).closest('.form-group').addClass('has-success');
+                $(element).closest('.form-group').attr('class', 'form-group has-success');
+                $(element).next('.help-block').html(text);
             }
         }
 
