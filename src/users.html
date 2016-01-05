@@ -1,54 +1,86 @@
 <!doctype html>
 <html>
+
 <head>
-<meta charset="utf-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
-<title>Main</title>
-<meta name="description" content="">
-<meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
-<link rel="stylesheet" href="../bower/normalize-css/normalize.css">
-<!-- inject:css -->
-<!-- endinject -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Main</title>
+    <meta name="description" content="">
+    <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+    <link rel="stylesheet" href="../bower/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../bower/normalize-css/normalize.css">
+    <!-- inject:css -->
+    <!-- endinject -->
 </head>
+
 <body>
     <header>
-        <nav>
-            <a href="/">Articles</a>
-            <a href="/users.html">Users</a>
-            <a href="/search.html">Search</a>
-            <a href="/my_profile.html">My Profile</a>
+        <nav class="navbar navbar-default">
+            <div class="collapse navbar-collapse">
+                <ul class="nav nav-pills">
+                    <li>
+                        <a href="/">Articles</a>
+                    </li>
+                    <li>
+                        <a href="/new_article.html">Add article</a>
+                    </li>
+                    <li class="active">
+                        <a href="/users.html">Users</a>
+                    </li>
+                    <li>
+                        <a href="/search.html">Search</a>
+                    </li>
+                    <li>
+                        <a href="/my_profile.html">My Profile</a>
+                    </li>
+                </ul>
+            </div>
         </nav>
     </header>
-    <section >
+    <section>
         <div class="container user_page">
             <div class="side-bar" id="viewModel">
                 <div class="recent_posts">
-                    <h2>Recent posts:</h2>
-                    <ul data-bind='foreach: posts'>
-                        <li>
-                            <a href="#" data-bind="text: post_header"></a>
-                            <span class="rate"> -
-                                <span data-bind="text: totalRate"></span> ★
-                            </span>
-                            <div class="author-wrap">Author:
-                                <a class="author" href="#" data-bind="text: author"></a>
-                            </div>
-                        </li>
-                    </ul>
+                    <div class="panel panel-primary">
+                        <div class="panel-heading">
+                            <div class="panel-title">
+                                <h2>Recent posts:</h2></div>
+                        </div>
+                        <div class="panel-body">
+                            <ul class="list-group" data-bind="foreach: posts">
+                                <li class="list-group-item">
+                                    <a href="#" data-bind="text: post_header, attr : { href: 'article_detail.html'+'#'+$index() }"></a>
+                                    <span class="badge">
+                                        <span data-bind="text: totalRate"></span> ★
+                                    </span>
+                                    <div class="author-wrap">Author:
+                                        <a href="#" data-bind="text: author"></a>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
                 </div>
                 <div class="best_posts">
-                    <h2>Best posts:</h2>
-                    <ul data-bind='foreach: postByRate'>
-                        <li>
-                            <a href="#" data-bind="text: post_header"></a>
-                            <span class="rate"> -
-                                <span data-bind="text: totalRate"></span> ★
-                            </span>
-                            <div class="author-wrap">Author:
-                                <a class="author" href="#" data-bind="text: author"></a>
-                            </div>
-                        </li>
-                    </ul>
+                    <div class="panel panel-primary">
+                        <div class="panel-heading">
+                            <div class="panel-title">
+                                <h2>Best posts:</h2></div>
+                        </div>
+                        <div class="panel-body">
+                            <ul class="list-group" data-bind='foreach: postByRate'>
+                                <li class="list-group-item">
+                                    <a href="#" data-bind="text: post_header"></a>
+                                    <span class="badge">
+                                        <span data-bind="text: totalRate"></span> ★
+                                    </span>
+                                    <div class="author-wrap">Author:
+                                        <a href="#" data-bind="text: author"></a>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="main" id="users">
@@ -60,22 +92,20 @@
                 <ul class="user" data-bind="foreach: searchResultsPost">
                     <li>
                         <img data-bind='attr: { src : ava }' alt="">
-                        <h2 data-bind="text: fullName"></h2>
-                        Age: <span data-bind="text: age"></span><br>
-                        Gender: <span data-bind="text: gender"></span><br>
-                        Email: <span data-bind="text: email"></span><br>
-                        Count of articles: <span data-bind="text: countOfArticles"></span>
-
+                        <h2 data-bind="text: fullName"></h2> Age: <span data-bind="text: age"></span>
+                        <br> Gender: <span data-bind="text: gender"></span>
+                        <br> Email: <span data-bind="text: email"></span>
+                        <br> Count of articles: <span data-bind="text: countOfArticles"></span>
                     </li>
                 </ul>
             </div>
         </div>
     </section>
     <footer></footer>
-<!-- bower:js -->
-<!-- endinject -->
-<!-- inject:js -->
-<!-- endinject -->
+    <!-- bower:js -->
+    <!-- endinject -->
+    <!-- inject:js -->
+    <!-- endinject -->
 </body>
-</html>
 
+</html>

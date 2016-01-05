@@ -29,7 +29,8 @@ var gulp = require('gulp'),
 
         bower: {
             _src: ['public/bower/knockout/dist/knockout.js',
-                   'public/bower/jquery/dist/jquery.min.js'
+                   'public/bower/jquery/dist/jquery.min.js',
+                   'public/bower/bootstrap/dist/js/bootstrap.min.js'
             ]
         },
 

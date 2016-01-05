@@ -51,7 +51,7 @@ function ViewModel () {
     self.text = ko.observable('');
     self.readVisiblity = ko.observable(false);
     self.visibleRate = ko.observable(true);
-    self.rating = ko.observableArray([0,1,2,3,4,5]);
+    self.rating = ko.observableArray(['',1,2,3,4,5]);
     self.img = ko.observable('');
     self.posts = ko.observableArray(
         [

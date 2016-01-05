@@ -4,7 +4,7 @@ header
     text-align right
     nav
         padding 15px
-        border-bottom()
+        // border-bottom()
         a
             display inline-block
             padding 15px
@@ -17,10 +17,10 @@ section
         cf()
         .side-bar
             col(1/4)
-            border-right()
+            // border-right()
             box-sizing border-box
             &>*
-                border-bottom()
+                // border-bottom()
         .main
             col(3/4)
 section
@@ -29,17 +29,17 @@ section
         .side-bar
             span(1/4)
         .main
-            border-left()
-            box-sizing border-box
+            // border-left()
+            // box-sizing border-box
             span(3/4)
-            margin-left -1px
+            // margin-left -1px
 
-.recent_posts, .best_posts
-    ul
-        margin 0 15px
-        list-style none
-        li
-            margin 10px 0
+// .recent_posts, .best_posts
+//     ul
+//         margin 0 15px
+//         list-style none
+//         li
+//             margin 10px 0
 .post
     col(1/4, cycle:4)
     .post_header
@@ -54,15 +54,15 @@ section
     p
         word-wrap break-word
 .author-wrap
-    color black
-    font-size 12px
+    // color black
+    // font-size 12px
     position relative
     .author-visible
         position absolute
         top -60px
         left 0
-#users .search
-    border-bottom()
+// #users .search
+    // border-bottom()
 .author
     color red
     text-decoration underline
@@ -71,8 +71,25 @@ section
     color #919292
 .post_main
     font-size 13px
-.rate
-    color #D18A00
+.nav.nav-pills
+    float right
+.badge
+    background-color #F7A300
+.panel-body
+    padding 0
+.list-group
+    margin 0
+li.list-group-item
+    border-right 0px
+    border-left 0px
+    &:first-child
+        border-top 0px
+    &:last-child
+        border-bottom 0px
+.post_footer
+    .input-group
+        width 76px
+
 .add_article
     float right
     color blue
@@ -81,7 +98,7 @@ section
     li
         padding 10px
         list-style none
-        border-bottom()
+        // border-bottom()
         img
             width 100px
             display inline-block
