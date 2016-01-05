@@ -85,8 +85,9 @@
             </div>
             <div class="main">
                 <div class="search">
-                    <form action="">
-                        <input type="text" placeholder="Search by articles" data-bind="value: queryPost, valueUpdate: 'keyup'">
+                    <form class="input-group" action="">
+                        <input type="text" class="form-control" placeholder="Search by articles" data-bind="value: queryPost, valueUpdate: 'keyup'">
+                        <span class="input-group-addon" id="basic-addon1"><i class="glyphicon glyphicon-search"></i></span>
                     </form>
                 </div>
                 <div data-bind="foreach: searchResultsPost">

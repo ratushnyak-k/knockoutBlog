@@ -225,7 +225,13 @@ ko.bindingHandlers.validation = {
         var valueUnwrapped = ko.unwrap(valueAccessor());
 
         function errorValidate (element, text) {
-            $(element).next('.error').html(text);
+
+            if (text) {
+                $(element).closest('.form-group').addClass('has-error');
+                $(element).next('.help-block').html(text);
+            } else {
+                $(element).closest('.form-group').addClass('has-success');
+            }
         }
 
         var firstNameRegEx = /^[a-zA-Z ]+$/;

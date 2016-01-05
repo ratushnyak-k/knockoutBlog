@@ -86,19 +86,19 @@
             <div class="main">
                 <div class="new_article">
                     <form action="" data-bind="visible: !readVisiblity()">
-                        <div class="input-wrapper">
+                        <div class="form-group">
                             <label for="">Title</label>
-                            <input type="text" data-bind="value: title, valueUpdate: 'keyup'">
+                            <input class="form-control" type="text" data-bind="value: title, valueUpdate: 'keyup'">
                         </div>
-                        <div class="input-wrapper">
-                            <input type="file" id="fileInput" accept="image/png">
+                        <div class="form-group">
+                            <input  type="file" id="fileInput" accept="image/png">
                             <img src="" alt="" data-bind="attr: { src: img }, visible: $root.img ">
                         </div>
-                        <div class="input-wrapper">
+                        <div class="form-group">
                             <label for="">Your text</label>
-                            <textarea name="" id="" data-bind="value: text, valueUpdate: 'keyup'"></textarea>
+                            <textarea class="form-control" name="" id="" data-bind="value: text, valueUpdate: 'keyup'"></textarea>
                         </div>
-                        <button data-bind="enable: title().length && text().length, click: addPost">Add new article</button>
+                        <button class="btn btn-primary pull-right" data-bind="enable: title().length && text().length, click: addPost">Add new article</button>
                     </form>
                     <div class="readable" data-bind="visible: readVisiblity()">
                         <div class="input-wrapper">
