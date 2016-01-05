@@ -85,12 +85,15 @@
             </div>
             <div class="main" id="users">
                 <div class="search">
-                    <form action="">
-                        <input type="text" placeholder="Search by users" data-bind="value: queryUser, valueUpdate: 'keyup'">
+                    <form class="input-group" action="">
+                        <input class="form-control" type="text" placeholder="Search by users" data-bind="value: queryUser, valueUpdate: 'keyup'">
+                        <span class="input-group-addon">
+                            <i class="glyphicon glyphicon-search"></i>
+                        </span>
                     </form>
                 </div>
-                <ul class="user" data-bind="foreach: searchResultsPost">
-                    <li>
+                <ul class="user list-group" data-bind="foreach: searchResultsPost">
+                    <li class="list-group-item">
                         <img data-bind='attr: { src : ava }' alt="">
                         <h2 data-bind="text: fullName"></h2> Age: <span data-bind="text: age"></span>
                         <br> Gender: <span data-bind="text: gender"></span>
