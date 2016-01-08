@@ -191,6 +191,16 @@ function PostsList (title, text, img, author, ava, timestamp, totalRate, rate, c
     self.ratingSetted = ko.observable(false);
     self.commentsArray = ko.observableArray(CommentsArray);
 }
+var cropInit = $('#crop-field').croppie({
+    viewport: {
+        width: 200,
+        height: 200,
+    },
+    boundary: {
+        width: 300,
+        height: 300,
+    }
+});
 function readURL(input, whatModel) {
 
     if (input.files && input.files[0]) {
@@ -198,7 +208,12 @@ function readURL(input, whatModel) {
 
         reader.onload = function (e) {
             if (whatModel) {
-                personalInfo.ava(e.target.result);
+                // personalInfo.ava(e.target.result);
+                cropInit.croppie('bind', {
+                    url: e.target.result
+                });
+
+                $('.ava-upload-wrapper').addClass('ready');
             } else {
                 myViewModel.img(e.target.result);
             }
@@ -207,6 +222,15 @@ function readURL(input, whatModel) {
         reader.readAsDataURL(input.files[0]);
     }
 }
+$('.upload-result').on('click', function () {
+        cropInit.croppie('result', {
+            type: 'canvas',
+            size: 'viewport'
+        }).then(function (data) {
+            console.log(data);
+            personalInfo.ava(data);
+    });
+});
 
 $('#fileInput').change( function () {
     var whatModel = $('#profile').length;
