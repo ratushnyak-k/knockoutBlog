@@ -5,10 +5,9 @@ var Artem = new Personal('Artem', 'Anc', 22, 'img/Artem.jpg','email@email.com', 
 var Alex = new Personal('Alex', 'Kud', 30, 'img/Alex.jpg','email@email.com', 'male', 1);
 var allUsersArr = [Ivan, Dmitry, Ruslan, Artem, Alex];
 var myInfo = ko.utils.parseJson(localStorage.getItem('myInfo'));
-if (myInfo.firstName) {
+if (myInfo) {
     allUsersArr.push(myInfo);
-};
-
+}
 
 localStorage.setItem('allUsers', ko.toJSON(allUsersArr));
 var allUsers = ko.utils.parseJson(localStorage.getItem('allUsers'));
@@ -45,7 +44,6 @@ function Personal (firstName, lastName, age, Ava, email, gender, CountOfArticles
         if (self.validated()) {
             self.profileVisibility(true);
             myInfo = new Personal(self.firstName(), self.lastName(), self.age(), self.ava(), self.email(), self.gender());
-            console.log(myInfo)
             localStorage.setItem('myInfo', ko.toJSON(myInfo));
         }
     };
@@ -342,7 +340,6 @@ var personalInfo = new Personal();
 if (document.getElementById('profile')) {
     ko.applyBindings(personalInfo, document.getElementById('profile'));
 }
-
 function Users () {
     var self = this;
     self.users = ko.observableArray(allUsers);
@@ -358,4 +355,14 @@ function Users () {
 var usersList = new Users();
 if (document.getElementById('users')) {
     ko.applyBindings(usersList, document.getElementById('users'));
+}
+
+if (myInfo) {
+    personalInfo.firstName(myInfo.firstName);
+    personalInfo.lastName(myInfo.lastName);
+    personalInfo.age(myInfo.age);
+    personalInfo.email(myInfo.email);
+    personalInfo.gender(myInfo.gender);
+    personalInfo.ava(myInfo.ava);
+    personalInfo.profileVisibility(true);
 }
