@@ -31,7 +31,7 @@ var gulp = require('gulp'),
             _src: ['public/bower/knockout/dist/knockout.js',
                    'public/bower/jquery/dist/jquery.min.js',
                    'public/bower/bootstrap/dist/js/bootstrap.min.js',
-                   'public/bower/Croppie/croppie.min.js'
+                   'public/bower/cropbox/jquery.cropbox.js'
             ]
         },
 

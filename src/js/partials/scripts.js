@@ -1,9 +1,17 @@
-var myInfo = new Personal('Kostya', 'Ra', 22, '', 'email@email.com', 'male');
 var Ivan = new Personal('Ivan', 'Kon', 27, 'img/Ivan.jpg','email@email.com', 'male', 1);
 var Dmitry = new Personal('Dmitry', 'Kol', 29, 'img/Dmitry.jpg','email@email.com', 'male', 1);
 var Ruslan = new Personal('Ruslan', 'Chu', 29, 'img/Ruslan.jpg','email@email.com', 'male', 1);
 var Artem = new Personal('Artem', 'Anc', 22, 'img/Artem.jpg','email@email.com', 'male', 1);
 var Alex = new Personal('Alex', 'Kud', 30, 'img/Alex.jpg','email@email.com', 'male', 1);
+var allUsersArr = [Ivan, Dmitry, Ruslan, Artem, Alex];
+var myInfo = ko.utils.parseJson(localStorage.getItem('myInfo'));
+if (myInfo.firstName) {
+    allUsersArr.push(myInfo);
+};
+
+
+localStorage.setItem('allUsers', ko.toJSON(allUsersArr));
+var allUsers = ko.utils.parseJson(localStorage.getItem('allUsers'));
 
 var thisHash = window.location.hash;
 if (thisHash) {
@@ -28,6 +36,7 @@ function Personal (firstName, lastName, age, Ava, email, gender, CountOfArticles
     self.fullName = ko.computed(function () {
         return self.firstName() + ' ' + self.lastName();
     });
+
     self.gender = ko.observable(gender);
     self.profileVisibility = ko.observable(false);
     self.validated = ko.observable(false);
@@ -35,6 +44,9 @@ function Personal (firstName, lastName, age, Ava, email, gender, CountOfArticles
         self.isValidate(true);
         if (self.validated()) {
             self.profileVisibility(true);
+            myInfo = new Personal(self.firstName(), self.lastName(), self.age(), self.ava(), self.email(), self.gender());
+            console.log(myInfo)
+            localStorage.setItem('myInfo', ko.toJSON(myInfo));
         }
     };
     self.editProfile = function () {
@@ -63,7 +75,7 @@ function ViewModel () {
                 Ivan.ava(),
                 (new Date().getTime() + 100000), 0, 0, 4,
                 [
-                    new Comment(myInfo.fullName(), myInfo.ava(), 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Distinctio, officiis?', new Date()),
+                    // new Comment(myInfo.fullName(), myInfo.ava(), 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Distinctio, officiis?', new Date()),
                     new Comment(Ivan.fullName(), Ivan.ava(), 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Distinctio, officiis?', new Date()),
                     new Comment(Dmitry.fullName(), Dmitry.ava(), 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Distinctio, officiis?', new Date()),
                     new Comment(Ruslan.fullName(), Ruslan.ava(), 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Distinctio, officiis?', new Date()),
@@ -132,7 +144,7 @@ function ViewModel () {
     }, this);
 
     self.addPost = function () {
-        self.posts.unshift(new PostsList(self.title(), self.text(), self.img(), myInfo.fullName(), myInfo.ava(), new Date().getTime(), 0, 0, 0, []));
+        // self.posts.unshift(new PostsList(self.title(), self.text(), self.img(), myInfo.fullName(), myInfo.ava(), new Date().getTime(), 0, 0, 0, []));
         self.readVisiblity(true);
     };
     self.queryPost = ko.observable('');
@@ -150,7 +162,7 @@ function ViewModel () {
     self.editedCommentText = ko.observable('');
 
     self.addComment = function () {
-        this.commentsArray.unshift(new Comment(myInfo.fullName(), myInfo.ava(), self.newCommentText(), new Date()));
+        // this.commentsArray.unshift(new Comment(myInfo.fullName(), myInfo.ava(), self.newCommentText(), new Date()));
         self.newCommentText('');
     };
 
@@ -191,16 +203,7 @@ function PostsList (title, text, img, author, ava, timestamp, totalRate, rate, c
     self.ratingSetted = ko.observable(false);
     self.commentsArray = ko.observableArray(CommentsArray);
 }
-var cropInit = $('#crop-field').croppie({
-    viewport: {
-        width: 200,
-        height: 200,
-    },
-    boundary: {
-        width: 300,
-        height: 300,
-    }
-});
+var thisImg;
 function readURL(input, whatModel) {
 
     if (input.files && input.files[0]) {
@@ -208,12 +211,17 @@ function readURL(input, whatModel) {
 
         reader.onload = function (e) {
             if (whatModel) {
-                // personalInfo.ava(e.target.result);
-                cropInit.croppie('bind', {
-                    url: e.target.result
-                });
+                personalInfo.ava(e.target.result);
+                $('.future-ava').cropbox({
+                    width: 200,
+                    height: 200,
+                    showControls: 'always'
+                }, function () {
 
-                $('.ava-upload-wrapper').addClass('ready');
+                }).on('cropbox',
+                    function( event, results, img ) {
+                        thisImg = img.getDataURL();
+                    });
             } else {
                 myViewModel.img(e.target.result);
             }
@@ -222,19 +230,19 @@ function readURL(input, whatModel) {
         reader.readAsDataURL(input.files[0]);
     }
 }
-$('.upload-result').on('click', function () {
-        cropInit.croppie('result', {
-            type: 'canvas',
-            size: 'viewport'
-        }).then(function (data) {
-            console.log(data);
-            personalInfo.ava(data);
-    });
+
+$('.upload-result').click(function () {
+    personalInfo.ava(thisImg);
+    $('.upload-result').hide();
+    $('.future-ava').data('cropbox').remove();
+    $('#fileInput').val('');
 });
 
 $('#fileInput').change( function () {
     var whatModel = $('#profile').length;
     readURL(this, whatModel);
+
+    $('.upload-result').css('display', 'inline-block');
 });
 
 var myViewModel = new ViewModel();
@@ -336,13 +344,13 @@ if (document.getElementById('profile')) {
 }
 
 function Users () {
-var self = this;
-    self.users = ko.observableArray([Ivan, Dmitry, Ruslan, Artem, Alex, myInfo]);
+    var self = this;
+    self.users = ko.observableArray(allUsers);
     self.queryUser = ko.observable('');
     self.searchResultsPost = ko.computed(function() {
         var q = self.queryUser().toLowerCase();
         return self.users().filter(function(i) {
-          return i.fullName().toLowerCase().indexOf(q) >= 0;
+            return i.fullName.toLowerCase().indexOf(q) >= 0;
         });
     });
 }

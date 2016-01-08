@@ -9,7 +9,7 @@
     <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
     <link rel="stylesheet" href="../bower/bootstrap/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="../bower/normalize-css/normalize.css">
-    <link rel="stylesheet" href="../bower/Croppie/croppie.css">
+    <link rel="stylesheet" href="../bower/cropbox/jquery.cropbox.css">
     <!-- inject:css -->
     <!-- endinject -->
 </head>
@@ -104,10 +104,11 @@
                         </div>
                         <div class="form-group ava-upload-wrapper">
                             <label for="">Choose your avatar</label>
+                            <div class="crop-image-wrapper">
+                                <img class="future-ava" src="" alt="" data-bind="attr: { src: ava }">
+                            </div>
                             <input type="file" id="fileInput" accept="image/png">
-                            <img class="future-ava" src="" alt="" data-bind="attr: { src: ava }">
-                            <div id="crop-field"></div>
-                            <div class="upload-result">Crop</div>
+                            <div class="btn btn-primary upload-result">Crop</div>
                         </div>
                         <div class="form-group">
                             <label class="control-label" for="email">Email <span class="require-field">*</span></label>
