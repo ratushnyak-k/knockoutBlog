@@ -111,9 +111,11 @@
                         </a>
                         <div class="post_main" data-bind="text: post_main_cut"></div>
                         <div class="post_footer">
-                            Rate:
-                            <select name="" id="" data-bind="options: $root.rating, value: rate, visible: !ratingSetted(), event: { change: $root.onChangeRate }"></select>
-                            <span data-bind="text: rate, visible: ratingSetted()"></span> ★
+                            <div class="input-group">
+                                <select class="form-control" name="" id="" data-bind="options: $root.rating, value: rate, visible: !ratingSetted(), event: { change: $root.onChangeRate }"></select>
+                                <span class="form-control" data-bind="text: rate, visible: ratingSetted()"></span>
+                                <span class="input-group-addon">★</span>
+                            </div>
                         </div>
                     </div>
                 </div>
