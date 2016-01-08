@@ -17,7 +17,10 @@
     <header>
         <nav class="navbar navbar-default">
             <div class="collapse navbar-collapse">
-                <ul class="nav nav-pills">
+                <div class="logo pull-left">
+                    <a href="/"><img src="img/logo.png"></a>
+                </div>
+                <ul class="nav nav-pills pull-right">
                     <li>
                         <a href="/">Articles</a>
                     </li>
@@ -44,7 +47,7 @@
                     <div class="panel panel-primary">
                         <div class="panel-heading">
                             <div class="panel-title">
-                                <h2>Recent posts:</h2></div>
+                                <h3>Recent posts:</h3></div>
                         </div>
                         <div class="panel-body">
                             <ul class="list-group" data-bind="foreach: posts">
@@ -65,7 +68,7 @@
                     <div class="panel panel-primary">
                         <div class="panel-heading">
                             <div class="panel-title">
-                                <h2>Best posts:</h2></div>
+                                <h3>Best posts:</h3></div>
                         </div>
                         <div class="panel-body">
                             <ul class="list-group" data-bind='foreach: postByRate'>
@@ -131,7 +134,15 @@
             </div>
         </div>
     </section>
-    <footer></footer>
+    <footer>
+        <nav class="navbar navbar-default">
+            <div class="collapse navbar-collapse">
+                <div class="slogan">
+                    <a href="/"><img src="img/slogan.png"></a>
+                </div>
+            </div>
+        </nav>
+    </footer>
     <!-- bower:js -->
     <!-- endinject -->
     <!-- inject:js -->

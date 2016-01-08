@@ -173,7 +173,7 @@ function PostsList (title, text, img, author, ava, timestamp, totalRate, rate, c
     var self = this;
     self.post_header = title;
     self.post_main = text;
-    self.post_main_cut = self.post_main.slice(0, 150) + '...';
+    self.post_main_cut = self.post_main.slice(0, 100) + '...';
     self.articleImg = img;
     self.ava = ava;
     self.authorVisibility = ko.observable(false);

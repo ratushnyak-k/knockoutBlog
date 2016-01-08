@@ -14,19 +14,8 @@ border-bottom(width = 1px, color = #919292)
     border-bottom width solid color
 border-left(width = 1px, color = #919292)
     border-left width solid color
-// ul
-//     margin 0
-//     padding 0
-//     font('Italic')
-// a
-//     color #919292
-//     text-decoration none
-//     &:hover
-//         text-decoration underline
 
 input, textarea
-    // width 90%
-    // margin 10px auto
     display block
     box-sizing border-box
 textarea
@@ -44,8 +33,25 @@ form img
 .error
     color red
     font-size 12px
-h1, h2
+h1, h2, h3
     margin 0
-// h2
-//     font-size 18px
-//     margin 10px 15px
+.require-field
+    color red
+
+.logo
+    display inline-block
+    width 50px
+    a
+        padding 0
+        &:hover
+            background-color transparent
+    & + ul
+        padding 12.5px 0
+.slogan
+    padding 15px
+    display inline-block
+    width inherit
+    a
+        padding 0
+        &:hover
+            background-color transparent
