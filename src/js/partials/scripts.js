@@ -1,16 +1,109 @@
+//knockout.localstorage plugin
+(function(ko){
+    // Wrap ko.observable and ko.observableArray
+    var methods = ['observable', 'observableArray'];
+
+    ko.utils.arrayForEach(methods, function(method){
+    var saved = ko[method];
+
+        ko[method] = function(initialValue, options){
+            options = options || {};
+
+            var key = options.persist;
+
+        // Load existing value if set
+            if(key && localStorage.hasOwnProperty(key)){
+                try{
+                    initialValue = JSON.parse(localStorage.getItem(key))
+                }catch(e){};
+            }
+
+          // Create observable from saved method
+            var observable = saved(initialValue);
+
+          // Subscribe to changes, and save to localStorage
+            if(key){
+                observable.subscribe(function(newValue){
+                    localStorage.setItem(key, ko.toJSON(newValue));
+                });
+            };
+
+            return observable;
+        }
+    })
+})(ko);
+
+//knockout.localstorage plugin
+
 var Ivan = new Personal('Ivan', 'Kon', 27, 'img/Ivan.jpg','email@email.com', 'male', 1);
 var Dmitry = new Personal('Dmitry', 'Kol', 29, 'img/Dmitry.jpg','email@email.com', 'male', 1);
 var Ruslan = new Personal('Ruslan', 'Chu', 29, 'img/Ruslan.jpg','email@email.com', 'male', 1);
 var Artem = new Personal('Artem', 'Anc', 22, 'img/Artem.jpg','email@email.com', 'male', 1);
 var Alex = new Personal('Alex', 'Kud', 30, 'img/Alex.jpg','email@email.com', 'male', 1);
 var allUsersArr = [Ivan, Dmitry, Ruslan, Artem, Alex];
+
 var myInfo = ko.utils.parseJson(localStorage.getItem('myInfo'));
+
 if (myInfo) {
     allUsersArr.push(myInfo);
 }
 
 localStorage.setItem('allUsers', ko.toJSON(allUsersArr));
+
 var allUsers = ko.utils.parseJson(localStorage.getItem('allUsers'));
+
+
+var firstPost = new PostsList(
+        'First',
+        'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iure laborum autem sed quod, nisi, pariatur nostrum reiciendis voluptatum dicta labore minima sint ipsam officia. Minus cumque eligendi aperiam temporibus omni lorem Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quam id commodi expedita consequatur, saepe fugit numquam culpa vero nemo accusamus fugiat, ipsam officia dolorum modi cum aliquam ducimus, tempora quasi Lorem ipsum dolor sit amet, consectetur adipisicing elit. Facere nostrum perferendis sequi impedit voluptatem officia, dolorem accusamus culpa, deserunt sunt pariatur soluta aliquam beatae inventore ut est sapiente ullam quibusdam nihil corporis? Magnam nostrum nesciunt voluptatem quibusdam facere. Aut sed veritatis necessitatibus possimus maiores nostrum libero fugiat ad enim repudiandae inventore reprehenderit, repellat iure, fuga minus deleniti debitis, recusandae quo ipsam. Recusandae debitis sequi, assumenda obcaecati odit doloribus ipsum, nihil nulla, blanditiis, atque voluptates natus. Ullam placeat fugiat laudantium eaque doloremque a soluta at, corporis ducimus ex nemo explicabo. Ducimus atque aut reiciendis dolore, iusto impedit eum voluptates sequi consectetur labore, odit error numquam illo ea itaque earum molestias quae. Itaque perspiciatis illo, nihil inventore est deleniti minus, quas sint molestiae facilis voluptas numquam possimus quis repudiandae saepe! Facilis repellat odit ea incidunt ducimus, totam consectetur labore veniam dolorem suscipit deserunt rem eos neque iusto unde expedita accusantium, cum repellendus blanditiis, impedit accusamus eius odio! Incidunt itaque, optio quidem eaque quam libero, odit quos iusto rerum at fugit numquam eius. Quas earum ducimus vel maxime esse veniam doloribus nihil, sunt autem expedita incidunt ipsa minus architecto consequuntur, fugit perferendis? Ea neque culpa ab obcaecati harum dolor eius, excepturi incidunt voluptatum.',
+        'img/1p.jpg',
+        Ivan.fullName(),
+        Ivan.ava(),
+        (new Date().getTime() + 100000), 0, 0, 4,
+        [
+            // new Comment(myInfo.fullName(), myInfo.ava(), 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Distinctio, officiis?', new Date()),
+            new Comment(Ivan.fullName(), Ivan.ava(), 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Distinctio, officiis?', new Date()),
+            new Comment(Dmitry.fullName(), Dmitry.ava(), 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Distinctio, officiis?', new Date()),
+            new Comment(Ruslan.fullName(), Ruslan.ava(), 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Distinctio, officiis?', new Date()),
+            new Comment(Artem.fullName(), Artem.ava(), 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Distinctio, officiis?', new Date()),
+            new Comment(Alex.fullName(), Alex.ava(), 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Distinctio, officiis?', new Date()),
+        ]);
+var secondPost = new PostsList(
+        'Second',
+        'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Provident fugit alias quidem ea facere, deleniti quam ipsam vel suscipit optio aliquam minima aspernatur repellendus distinctio accusamus dolores tempore accusantium. Impedi lorem  Lorem ipsum dolor sit amet, consectetur adipisicing elit. Laborum nisi, facilis, suscipit ipsum quaerat adipisci inventore eveniet provident nesciunt dolorem, blanditiis voluptatem asperiores? Velit sequi, doloribus, et aut quod ducimus Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eaque repudiandae eveniet in ipsum sequi quia minus nesciunt aliquid, non, laudantium nam eum quo necessitatibus reprehenderit obcaecati sapiente rem sunt excepturi, ex dolore quibusdam nemo earum odit et. Placeat delectus itaque natus voluptas, omnis ad nostrum, rem perferendis eos laborum cum, incidunt autem voluptatem commodi dignissimos. Totam odio, quidem quasi ratione est eum nesciunt at ullam similique reprehenderit! Pariatur distinctio repudiandae quidem minima dolore possimus commodi, veniam quos cupiditate ducimus rerum qui fugiat labore perspiciatis nemo itaque aliquam ea enim, amet consequatur eos obcaecati. Et recusandae, ipsam unde debitis ipsa perferendis odit provident accusantium necessitatibus, similique ducimus doloribus maxime, incidunt laudantium modi! Cum quos inventore alias ut quam tenetur magni pariatur. Soluta beatae quod voluptate animi ipsa impedit! Dolorem vel error, possimus nihil quia, obcaecati, itaque illo sit, beatae quaerat perspiciatis quis nesciunt velit distinctio repudiandae sequi nisi. Recusandae facere asperiores fuga sapiente tempora voluptates perspiciatis eius praesentium porro, unde maxime veniam minima cupiditate enim nisi explicabo beatae deserunt eum laboriosam saepe illo vel repellendus assumenda corporis. Animi nemo impedit maiores quisquam velit neque excepturi corporis quae enim earum quo laborum molestias, harum suscipit debitis dolore necessitatibus quasi. Facilis quis, quas.',
+        'img/2p.jpg',
+        Dmitry.fullName(),
+        Dmitry.ava(),
+        (new Date().getTime() + 50000), 24, 0, 7, []);
+var thirdPost = new PostsList(
+        'Third',
+        'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Deserunt, similique. Beatae, nam, quia! Nobis quo, iste repudiandae atque labore at sunt! Dolore iste, alias laboriosam nihil, nesciunt quam assumenda ame lorem Lorem ipsum dolor sit amet, consectetur adipisicing elit. Doloribus eum consequuntur ut, impedit sequi harum necessitatibus, quos culpa vero! Harum magnam ex quam eum nihil quis iste rerum laboriosam recusandae Lorem ipsum dolor sit amet, consectetur adipisicing elit. Illo omnis, quidem ad quia at ullam iure ratione quod ducimus reiciendis fugiat laboriosam doloremque, expedita amet rem esse architecto deleniti asperiores repudiandae cumque officia voluptatibus non. Quasi maxime, earum quos repudiandae pariatur cupiditate sapiente id consectetur mollitia fuga provident illum esse nemo voluptates similique labore alias, quas officiis temporibus veniam dolorum maiores quisquam perspiciatis! Magni ad culpa id veniam, voluptas velit praesentium nemo minima excepturi, nobis, doloremque quos! Culpa earum facere cupiditate nesciunt quis consequuntur possimus recusandae necessitatibus. Officia qui aperiam, maiores veniam ab laborum velit voluptatem, asperiores provident excepturi temporibus tempore perspiciatis reprehenderit, sunt! Quae veniam excepturi placeat expedita facilis natus. Labore laudantium porro molestiae cumque est officiis vero dolorum ipsa, quibusdam nulla eveniet a molestias aut, cupiditate nam debitis modi in distinctio, voluptate illum velit! Facilis eaque laborum, assumenda voluptatibus quod maxime nam voluptas, reprehenderit rerum debitis ipsa quam excepturi ipsam unde perferendis. Sit sequi quidem at magni, assumenda odit impedit atque consequuntur nostrum mollitia ipsam, vel pariatur modi unde asperiores iure omnis nobis! Laboriosam officiis quae possimus repellat est maiores provident iste facere commodi error aperiam iusto soluta voluptatem perferendis ea nisi, unde quia cupiditate quas fuga vel.',
+        'img/3p.jpg',
+        Ruslan.fullName(),
+        Ruslan.ava(),
+        new Date().getTime(), 144, 0, 35, []);
+var fourthPost = new PostsList(
+        'Fourth',
+        'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Beatae dolorem cupiditate tenetur vitae molestias odit, fugit dignissimos pariatur. Beatae, nisi. Nemo nobis cupiditate dolore ratione, quidem sint incidunt at consequuntur lorem Lorem ipsum dolor sit amet, consectetur adipisicing elit. Numquam est quos, quas! Quaerat suscipit optio delectus, voluptatem itaque reprehenderit ipsa impedit eos, rem similique laborum possimus maiores esse minus. Pariatur Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quo nihil eaque nobis officia eius illum possimus nulla, ad adipisci doloribus cupiditate blanditiis placeat, totam sit. Porro, illo repellat, minus dolore fugit laborum ad officiis optio error. Laborum praesentium at esse necessitatibus explicabo adipisci, quibusdam cumque assumenda optio animi sed ratione, harum accusantium culpa eos labore, ipsam omnis aliquid voluptatem. Est officia reiciendis aliquid, exercitationem repellendus, voluptatum autem hic beatae nemo sit eveniet placeat esse quos commodi incidunt voluptatem doloribus. Voluptates iusto inventore, rem ipsa blanditiis totam temporibus sint itaque at consectetur velit reiciendis voluptate doloribus laborum exercitationem dignissimos doloremque laudantium atque distinctio consequatur. Debitis, maxime optio eveniet minima aliquid sit ipsam tempore adipisci dicta ducimus sint delectus, praesentium libero, incidunt quas! Dicta reiciendis sunt incidunt enim nulla veritatis nemo tempore harum nisi eum quis tempora quo, asperiores nobis architecto, aut voluptates vitae quidem doloribus illo voluptatibus similique! Cum odit minus sunt sequi officiis quae, iste provident. Excepturi magni iure molestias amet eveniet et repellendus earum voluptas. Accusantium magni minus sapiente dolores in quisquam quia neque pariatur animi officiis. Aspernatur amet nam eos in. Delectus itaque quos error reiciendis veritatis distinctio doloremque, ipsa nulla labore nobis, maiores amet, repellendus beatae dignissimos.',
+        'img/4p.jpg',
+        Artem.fullName(),
+        Artem.ava(),
+        new Date().getTime(), 154, 0, 134, []);
+var fifthPost = new PostsList(
+        'Fifth',
+        'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Atque harum illum rerum nisi perspiciatis, quos repudiandae qui iste assumenda sed ducimus incidunt et ullam excepturi at consequatur ab inventore dolor lorem   Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquid porro, maxime omnis possimus dolore in, debitis, numquam minus doloribus voluptates optio ratione accusantium accusamus voluptas fuga perferendis corporis quia autem Lorem ipsum dolor sit amet, consectetur adipisicing elit. Reprehenderit natus corrupti ex dolore, nemo nesciunt quae nisi. Modi perferendis enim aperiam dolorem perspiciatis reiciendis laboriosam quis assumenda, consequatur et repellendus accusamus commodi minus, ab fugiat ea sint voluptas voluptatem praesentium nihil deserunt temporibus ipsa excepturi illo? Officiis veniam sint recusandae culpa odit iste, in! Provident natus repellat harum eum beatae, porro. Vitae facere repudiandae libero quam mollitia minus, odit, amet in recusandae itaque nostrum. Provident officia earum quo quidem, praesentium magni. Optio voluptas cupiditate quasi sapiente cum natus, suscipit aliquid aliquam dignissimos officiis eaque, omnis repellendus veniam dolore esse, facere blanditiis eum quis. Accusamus, eius deleniti doloribus quis temporibus quidem id tempore aspernatur laborum est blanditiis sed fugit alias culpa exercitationem totam. Nemo doloribus deleniti placeat aliquam unde consequuntur veniam dignissimos consectetur eveniet vel tempora nulla obcaecati, quam facilis. Deserunt quo eveniet, distinctio non ullam tempore dicta doloremque minus sunt adipisci sequi vel voluptatibus numquam architecto alias repellat reiciendis mollitia placeat temporibus ea pariatur quibusdam. Veniam illo reprehenderit in maxime inventore quae repellendus laboriosam ut quas, dolorum voluptate amet placeat, commodi reiciendis corporis libero tempore distinctio officia, excepturi sed assumenda! Expedita vero harum quasi fugiat! Itaque alias eligendi, delectus dolorem.',
+        'img/5p.jpg',
+        Alex.fullName(),
+        Alex.ava(),
+        new Date().getTime(), 14, 0, 4, []);
+
+var allPostsArr = [firstPost, secondPost, thirdPost, fourthPost, fifthPost];
+
+var newPost = ko.utils.parseJson(localStorage.getItem('newPost'));
+
+if(newPost) {
+    allPostsArr.push(newPost);
+}
 
 var thisHash = window.location.hash;
 if (thisHash) {
@@ -63,53 +156,7 @@ function ViewModel () {
     self.visibleRate = ko.observable(true);
     self.rating = ko.observableArray(['',1,2,3,4,5]);
     self.img = ko.observable('');
-    self.posts = ko.observableArray(
-        [
-            new PostsList(
-                'First',
-                'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iure laborum autem sed quod, nisi, pariatur nostrum reiciendis voluptatum dicta labore minima sint ipsam officia. Minus cumque eligendi aperiam temporibus omni lorem Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quam id commodi expedita consequatur, saepe fugit numquam culpa vero nemo accusamus fugiat, ipsam officia dolorum modi cum aliquam ducimus, tempora quasi Lorem ipsum dolor sit amet, consectetur adipisicing elit. Facere nostrum perferendis sequi impedit voluptatem officia, dolorem accusamus culpa, deserunt sunt pariatur soluta aliquam beatae inventore ut est sapiente ullam quibusdam nihil corporis? Magnam nostrum nesciunt voluptatem quibusdam facere. Aut sed veritatis necessitatibus possimus maiores nostrum libero fugiat ad enim repudiandae inventore reprehenderit, repellat iure, fuga minus deleniti debitis, recusandae quo ipsam. Recusandae debitis sequi, assumenda obcaecati odit doloribus ipsum, nihil nulla, blanditiis, atque voluptates natus. Ullam placeat fugiat laudantium eaque doloremque a soluta at, corporis ducimus ex nemo explicabo. Ducimus atque aut reiciendis dolore, iusto impedit eum voluptates sequi consectetur labore, odit error numquam illo ea itaque earum molestias quae. Itaque perspiciatis illo, nihil inventore est deleniti minus, quas sint molestiae facilis voluptas numquam possimus quis repudiandae saepe! Facilis repellat odit ea incidunt ducimus, totam consectetur labore veniam dolorem suscipit deserunt rem eos neque iusto unde expedita accusantium, cum repellendus blanditiis, impedit accusamus eius odio! Incidunt itaque, optio quidem eaque quam libero, odit quos iusto rerum at fugit numquam eius. Quas earum ducimus vel maxime esse veniam doloribus nihil, sunt autem expedita incidunt ipsa minus architecto consequuntur, fugit perferendis? Ea neque culpa ab obcaecati harum dolor eius, excepturi incidunt voluptatum.',
-                'img/1p.jpg',
-                Ivan.fullName(),
-                Ivan.ava(),
-                (new Date().getTime() + 100000), 0, 0, 4,
-                [
-                    // new Comment(myInfo.fullName(), myInfo.ava(), 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Distinctio, officiis?', new Date()),
-                    new Comment(Ivan.fullName(), Ivan.ava(), 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Distinctio, officiis?', new Date()),
-                    new Comment(Dmitry.fullName(), Dmitry.ava(), 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Distinctio, officiis?', new Date()),
-                    new Comment(Ruslan.fullName(), Ruslan.ava(), 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Distinctio, officiis?', new Date()),
-                    new Comment(Artem.fullName(), Artem.ava(), 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Distinctio, officiis?', new Date()),
-                    new Comment(Alex.fullName(), Alex.ava(), 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Distinctio, officiis?', new Date()),
-                ]),
-            new PostsList(
-                'Second',
-                'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Provident fugit alias quidem ea facere, deleniti quam ipsam vel suscipit optio aliquam minima aspernatur repellendus distinctio accusamus dolores tempore accusantium. Impedi lorem  Lorem ipsum dolor sit amet, consectetur adipisicing elit. Laborum nisi, facilis, suscipit ipsum quaerat adipisci inventore eveniet provident nesciunt dolorem, blanditiis voluptatem asperiores? Velit sequi, doloribus, et aut quod ducimus Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eaque repudiandae eveniet in ipsum sequi quia minus nesciunt aliquid, non, laudantium nam eum quo necessitatibus reprehenderit obcaecati sapiente rem sunt excepturi, ex dolore quibusdam nemo earum odit et. Placeat delectus itaque natus voluptas, omnis ad nostrum, rem perferendis eos laborum cum, incidunt autem voluptatem commodi dignissimos. Totam odio, quidem quasi ratione est eum nesciunt at ullam similique reprehenderit! Pariatur distinctio repudiandae quidem minima dolore possimus commodi, veniam quos cupiditate ducimus rerum qui fugiat labore perspiciatis nemo itaque aliquam ea enim, amet consequatur eos obcaecati. Et recusandae, ipsam unde debitis ipsa perferendis odit provident accusantium necessitatibus, similique ducimus doloribus maxime, incidunt laudantium modi! Cum quos inventore alias ut quam tenetur magni pariatur. Soluta beatae quod voluptate animi ipsa impedit! Dolorem vel error, possimus nihil quia, obcaecati, itaque illo sit, beatae quaerat perspiciatis quis nesciunt velit distinctio repudiandae sequi nisi. Recusandae facere asperiores fuga sapiente tempora voluptates perspiciatis eius praesentium porro, unde maxime veniam minima cupiditate enim nisi explicabo beatae deserunt eum laboriosam saepe illo vel repellendus assumenda corporis. Animi nemo impedit maiores quisquam velit neque excepturi corporis quae enim earum quo laborum molestias, harum suscipit debitis dolore necessitatibus quasi. Facilis quis, quas.',
-                'img/2p.jpg',
-                Dmitry.fullName(),
-                Dmitry.ava(),
-                (new Date().getTime() + 50000), 24, 0, 7, []),
-            new PostsList(
-                'Third',
-                'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Deserunt, similique. Beatae, nam, quia! Nobis quo, iste repudiandae atque labore at sunt! Dolore iste, alias laboriosam nihil, nesciunt quam assumenda ame lorem Lorem ipsum dolor sit amet, consectetur adipisicing elit. Doloribus eum consequuntur ut, impedit sequi harum necessitatibus, quos culpa vero! Harum magnam ex quam eum nihil quis iste rerum laboriosam recusandae Lorem ipsum dolor sit amet, consectetur adipisicing elit. Illo omnis, quidem ad quia at ullam iure ratione quod ducimus reiciendis fugiat laboriosam doloremque, expedita amet rem esse architecto deleniti asperiores repudiandae cumque officia voluptatibus non. Quasi maxime, earum quos repudiandae pariatur cupiditate sapiente id consectetur mollitia fuga provident illum esse nemo voluptates similique labore alias, quas officiis temporibus veniam dolorum maiores quisquam perspiciatis! Magni ad culpa id veniam, voluptas velit praesentium nemo minima excepturi, nobis, doloremque quos! Culpa earum facere cupiditate nesciunt quis consequuntur possimus recusandae necessitatibus. Officia qui aperiam, maiores veniam ab laborum velit voluptatem, asperiores provident excepturi temporibus tempore perspiciatis reprehenderit, sunt! Quae veniam excepturi placeat expedita facilis natus. Labore laudantium porro molestiae cumque est officiis vero dolorum ipsa, quibusdam nulla eveniet a molestias aut, cupiditate nam debitis modi in distinctio, voluptate illum velit! Facilis eaque laborum, assumenda voluptatibus quod maxime nam voluptas, reprehenderit rerum debitis ipsa quam excepturi ipsam unde perferendis. Sit sequi quidem at magni, assumenda odit impedit atque consequuntur nostrum mollitia ipsam, vel pariatur modi unde asperiores iure omnis nobis! Laboriosam officiis quae possimus repellat est maiores provident iste facere commodi error aperiam iusto soluta voluptatem perferendis ea nisi, unde quia cupiditate quas fuga vel.',
-                'img/3p.jpg',
-                Ruslan.fullName(),
-                Ruslan.ava(),
-                new Date().getTime(), 144, 0, 35, []),
-            new PostsList(
-                'Fourth',
-                'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Beatae dolorem cupiditate tenetur vitae molestias odit, fugit dignissimos pariatur. Beatae, nisi. Nemo nobis cupiditate dolore ratione, quidem sint incidunt at consequuntur lorem Lorem ipsum dolor sit amet, consectetur adipisicing elit. Numquam est quos, quas! Quaerat suscipit optio delectus, voluptatem itaque reprehenderit ipsa impedit eos, rem similique laborum possimus maiores esse minus. Pariatur Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quo nihil eaque nobis officia eius illum possimus nulla, ad adipisci doloribus cupiditate blanditiis placeat, totam sit. Porro, illo repellat, minus dolore fugit laborum ad officiis optio error. Laborum praesentium at esse necessitatibus explicabo adipisci, quibusdam cumque assumenda optio animi sed ratione, harum accusantium culpa eos labore, ipsam omnis aliquid voluptatem. Est officia reiciendis aliquid, exercitationem repellendus, voluptatum autem hic beatae nemo sit eveniet placeat esse quos commodi incidunt voluptatem doloribus. Voluptates iusto inventore, rem ipsa blanditiis totam temporibus sint itaque at consectetur velit reiciendis voluptate doloribus laborum exercitationem dignissimos doloremque laudantium atque distinctio consequatur. Debitis, maxime optio eveniet minima aliquid sit ipsam tempore adipisci dicta ducimus sint delectus, praesentium libero, incidunt quas! Dicta reiciendis sunt incidunt enim nulla veritatis nemo tempore harum nisi eum quis tempora quo, asperiores nobis architecto, aut voluptates vitae quidem doloribus illo voluptatibus similique! Cum odit minus sunt sequi officiis quae, iste provident. Excepturi magni iure molestias amet eveniet et repellendus earum voluptas. Accusantium magni minus sapiente dolores in quisquam quia neque pariatur animi officiis. Aspernatur amet nam eos in. Delectus itaque quos error reiciendis veritatis distinctio doloremque, ipsa nulla labore nobis, maiores amet, repellendus beatae dignissimos.',
-                'img/4p.jpg',
-                Artem.fullName(),
-                Artem.ava(),
-                new Date().getTime(), 154, 0, 134, []),
-            new PostsList(
-                'Fifth',
-                'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Atque harum illum rerum nisi perspiciatis, quos repudiandae qui iste assumenda sed ducimus incidunt et ullam excepturi at consequatur ab inventore dolor lorem   Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquid porro, maxime omnis possimus dolore in, debitis, numquam minus doloribus voluptates optio ratione accusantium accusamus voluptas fuga perferendis corporis quia autem Lorem ipsum dolor sit amet, consectetur adipisicing elit. Reprehenderit natus corrupti ex dolore, nemo nesciunt quae nisi. Modi perferendis enim aperiam dolorem perspiciatis reiciendis laboriosam quis assumenda, consequatur et repellendus accusamus commodi minus, ab fugiat ea sint voluptas voluptatem praesentium nihil deserunt temporibus ipsa excepturi illo? Officiis veniam sint recusandae culpa odit iste, in! Provident natus repellat harum eum beatae, porro. Vitae facere repudiandae libero quam mollitia minus, odit, amet in recusandae itaque nostrum. Provident officia earum quo quidem, praesentium magni. Optio voluptas cupiditate quasi sapiente cum natus, suscipit aliquid aliquam dignissimos officiis eaque, omnis repellendus veniam dolore esse, facere blanditiis eum quis. Accusamus, eius deleniti doloribus quis temporibus quidem id tempore aspernatur laborum est blanditiis sed fugit alias culpa exercitationem totam. Nemo doloribus deleniti placeat aliquam unde consequuntur veniam dignissimos consectetur eveniet vel tempora nulla obcaecati, quam facilis. Deserunt quo eveniet, distinctio non ullam tempore dicta doloremque minus sunt adipisci sequi vel voluptatibus numquam architecto alias repellat reiciendis mollitia placeat temporibus ea pariatur quibusdam. Veniam illo reprehenderit in maxime inventore quae repellendus laboriosam ut quas, dolorum voluptate amet placeat, commodi reiciendis corporis libero tempore distinctio officia, excepturi sed assumenda! Expedita vero harum quasi fugiat! Itaque alias eligendi, delectus dolorem.',
-                'img/5p.jpg',
-                Alex.fullName(),
-                Alex.ava(),
-                new Date().getTime(), 14, 0, 4, [])
-        ]
-    );
+    self.posts = ko.observableArray(allPostsArr);
     self.authorIsVisible = function () {
         this.authorVisibility(true);
     };
@@ -142,7 +189,9 @@ function ViewModel () {
     }, this);
 
     self.addPost = function () {
-        // self.posts.unshift(new PostsList(self.title(), self.text(), self.img(), myInfo.fullName(), myInfo.ava(), new Date().getTime(), 0, 0, 0, []));
+
+        newPost = new PostsList(self.title(), self.text(), self.img(), myInfo.fullName, myInfo.ava, new Date().getTime(), 0, 0, 0, []);
+        localStorage.setItem('newPost', ko.toJSON(newPost));
         self.readVisiblity(true);
     };
     self.queryPost = ko.observable('');
