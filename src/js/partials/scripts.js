@@ -7,17 +7,6 @@ var allUsersArr = [Ivan, Dmitry, Ruslan, Artem, Alex];
 
 var myInfo = ko.utils.parseJson(localStorage.getItem('myInfo'));
 
-// if (myInfo) {
-//     allUsersArr.push(myInfo);
-//     personalInfo.firstName(myInfo.firstName);
-//     personalInfo.lastName(myInfo.lastName);
-//     personalInfo.age(myInfo.age);
-//     personalInfo.email(myInfo.email);
-//     personalInfo.gender(myInfo.gender);
-//     personalInfo.ava(myInfo.ava);
-//     personalInfo.profileVisibility(true);
-// }
-
 localStorage.setItem('allUsers', ko.toJSON(allUsersArr));
 
 var allUsers = ko.utils.parseJson(localStorage.getItem('allUsers'));
@@ -70,16 +59,40 @@ var allPostsArr = [firstPost, secondPost, thirdPost, fourthPost, fifthPost];
 // localStorage.setItem('allPosts', ko.toJSON(allPostsArr));
 var newAllPostsArr = [];
 var allPosts = ko.utils.parseJson(localStorage.getItem('allPosts'));
-if (allPosts) {
-    for (var i = 0; i < allPosts.length; i++) {
-        newAllPostsArr.push(new PostsList(allPosts[i].post_header, allPosts[i].post_main, allPosts[i].articleImg, allPosts[i].author, allPosts[i].ava, allPosts[i].timestamp, allPosts[i].commonRate, allPosts[i].rate, allPosts[i].countPeopleRate, allPosts[i].commentsArray));
-    }
-}
 
 var thisHash = window.location.hash;
 if (thisHash) {
     thisHash = parseFloat(thisHash.slice(1));
 }
+
+function commentsMaker (array) {
+    for (var i = 0; i < allPosts.length; i++) {
+        var myArray = array || allPosts[i].commentsArray;
+
+        newAllPostsArr.push(new PostsList(allPosts[i].post_header, allPosts[i].post_main, allPosts[i].articleImg, allPosts[i].author, allPosts[i].ava, allPosts[i].timestamp, allPosts[i].commonRate, allPosts[i].rate, allPosts[i].countPeopleRate, myArray));
+    }
+}
+
+if (allPosts) {
+    if ($('#hasComments').length) {
+        var observableComment = [];
+        for (var i = 0; i < allPosts[thisHash].commentsArray.length; i++) {
+            observableComment.push(
+                new Comment(
+                    allPosts[thisHash].commentsArray[i].commentAuthor,
+                    allPosts[thisHash].commentsArray[i].ava,
+                    allPosts[thisHash].commentsArray[i].commentText,
+                    allPosts[thisHash].commentsArray[i].commentTime
+                )
+            );
+        }
+        console.log(observableComment);
+        commentsMaker(observableComment);
+    } else {
+        commentsMaker();
+        }
+}
+
 function Comment (author, authorAva, text, time) {
     var self = this;
     self.commentAuthor = author;
@@ -147,6 +160,7 @@ function ViewModel () {
 
         this.ratingSetted(true);
         this.totalRate(parseFloat(((this.commonRate + this.rate()) / (this.countPeopleRate + 1)).toFixed(2)));
+        localStorage.setItem('allPosts', ko.toJSON(self.posts()));
     };
 
     self.postByRate = ko.computed(function () {
@@ -163,7 +177,6 @@ function ViewModel () {
 
         newPost = new PostsList(self.title(), self.text(), self.img(), myInfo.fullName, myInfo.ava, new Date().getTime(), 0, 0, 0, []);
         newAllPostsArr.push(newPost);
-        console.log(newAllPostsArr)
         localStorage.setItem('allPosts', ko.toJSON(newAllPostsArr));
         self.readVisiblity(true);
     };
@@ -182,7 +195,7 @@ function ViewModel () {
     self.editedCommentText = ko.observable('');
 
     self.addComment = function () {
-        // this.commentsArray.unshift(new Comment(myInfo.fullName(), myInfo.ava(), self.newCommentText(), new Date()));
+        this.commentsArray.unshift(new Comment(myInfo.fullName, myInfo.ava, self.newCommentText(), new Date()));
         self.newCommentText('');
     };
 
@@ -378,7 +391,6 @@ var usersList = new Users();
 if (document.getElementById('users')) {
     ko.applyBindings(usersList, document.getElementById('users'));
 }
-
 if (myInfo) {
     allUsersArr.push(myInfo);
     personalInfo.firstName(myInfo.firstName);
