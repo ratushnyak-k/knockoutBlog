@@ -1,40 +1,3 @@
-//knockout.localstorage plugin
-(function(ko){
-    // Wrap ko.observable and ko.observableArray
-    var methods = ['observable', 'observableArray'];
-
-    ko.utils.arrayForEach(methods, function(method){
-    var saved = ko[method];
-
-        ko[method] = function(initialValue, options){
-            options = options || {};
-
-            var key = options.persist;
-
-        // Load existing value if set
-            if(key && localStorage.hasOwnProperty(key)){
-                try{
-                    initialValue = JSON.parse(localStorage.getItem(key))
-                }catch(e){};
-            }
-
-          // Create observable from saved method
-            var observable = saved(initialValue);
-
-          // Subscribe to changes, and save to localStorage
-            if(key){
-                observable.subscribe(function(newValue){
-                    localStorage.setItem(key, ko.toJSON(newValue));
-                });
-            };
-
-            return observable;
-        }
-    })
-})(ko);
-
-//knockout.localstorage plugin
-
 var Ivan = new Personal('Ivan', 'Kon', 27, 'img/Ivan.jpg','email@email.com', 'male', 1);
 var Dmitry = new Personal('Dmitry', 'Kol', 29, 'img/Dmitry.jpg','email@email.com', 'male', 1);
 var Ruslan = new Personal('Ruslan', 'Chu', 29, 'img/Ruslan.jpg','email@email.com', 'male', 1);
@@ -44,14 +7,20 @@ var allUsersArr = [Ivan, Dmitry, Ruslan, Artem, Alex];
 
 var myInfo = ko.utils.parseJson(localStorage.getItem('myInfo'));
 
-if (myInfo) {
-    allUsersArr.push(myInfo);
-}
+// if (myInfo) {
+//     allUsersArr.push(myInfo);
+//     personalInfo.firstName(myInfo.firstName);
+//     personalInfo.lastName(myInfo.lastName);
+//     personalInfo.age(myInfo.age);
+//     personalInfo.email(myInfo.email);
+//     personalInfo.gender(myInfo.gender);
+//     personalInfo.ava(myInfo.ava);
+//     personalInfo.profileVisibility(true);
+// }
 
 localStorage.setItem('allUsers', ko.toJSON(allUsersArr));
 
 var allUsers = ko.utils.parseJson(localStorage.getItem('allUsers'));
-
 
 var firstPost = new PostsList(
         'First',
@@ -98,11 +67,13 @@ var fifthPost = new PostsList(
         new Date().getTime(), 14, 0, 4, []);
 
 var allPostsArr = [firstPost, secondPost, thirdPost, fourthPost, fifthPost];
-
-var newPost = ko.utils.parseJson(localStorage.getItem('newPost'));
-
-if(newPost) {
-    allPostsArr.push(newPost);
+// localStorage.setItem('allPosts', ko.toJSON(allPostsArr));
+var newAllPostsArr = [];
+var allPosts = ko.utils.parseJson(localStorage.getItem('allPosts'));
+if (allPosts) {
+    for (var i = 0; i < allPosts.length; i++) {
+        newAllPostsArr.push(new PostsList(allPosts[i].post_header, allPosts[i].post_main, allPosts[i].articleImg, allPosts[i].author, allPosts[i].ava, allPosts[i].timestamp, allPosts[i].commonRate, allPosts[i].rate, allPosts[i].countPeopleRate, allPosts[i].commentsArray));
+    }
 }
 
 var thisHash = window.location.hash;
@@ -156,7 +127,7 @@ function ViewModel () {
     self.visibleRate = ko.observable(true);
     self.rating = ko.observableArray(['',1,2,3,4,5]);
     self.img = ko.observable('');
-    self.posts = ko.observableArray(allPostsArr);
+    self.posts = ko.observableArray(newAllPostsArr);
     self.authorIsVisible = function () {
         this.authorVisibility(true);
     };
@@ -191,7 +162,9 @@ function ViewModel () {
     self.addPost = function () {
 
         newPost = new PostsList(self.title(), self.text(), self.img(), myInfo.fullName, myInfo.ava, new Date().getTime(), 0, 0, 0, []);
-        localStorage.setItem('newPost', ko.toJSON(newPost));
+        newAllPostsArr.push(newPost);
+        console.log(newAllPostsArr)
+        localStorage.setItem('allPosts', ko.toJSON(newAllPostsArr));
         self.readVisiblity(true);
     };
     self.queryPost = ko.observable('');
@@ -407,6 +380,7 @@ if (document.getElementById('users')) {
 }
 
 if (myInfo) {
+    allUsersArr.push(myInfo);
     personalInfo.firstName(myInfo.firstName);
     personalInfo.lastName(myInfo.lastName);
     personalInfo.age(myInfo.age);
