@@ -1,7 +1,7 @@
 var Ivan = new Personal('Ivan', 'Kon', 27, 'img/Ivan.jpg','email@email.com', 'male', 1);
 var Dmitry = new Personal('Dmitry', 'Kol', 29, 'img/Dmitry.jpg','email@email.com', 'male', 1);
 var Ruslan = new Personal('Ruslan', 'Chu', 29, 'img/Ruslan.jpg','email@email.com', 'male', 1);
-var Artem = new Personal('Artem', 'Anc', 22, 'img/Artem.jpg','email@email.com', 'male', 1);
+var Artem = new Personal('Artem', 'Anc', 29, 'img/Artem.jpg','email@email.com', 'male', 1);
 var Alex = new Personal('Alex', 'Kud', 30, 'img/Alex.jpg','email@email.com', 'male', 1);
 var allUsersArr = [Ivan, Dmitry, Ruslan, Artem, Alex];
 
@@ -13,7 +13,7 @@ var allUsers = ko.utils.parseJson(localStorage.getItem('allUsers'));
 
 var firstPost = new PostsList(
         'First',
-        'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iure laborum autem sed quod, nisi, pariatur nostrum reiciendis voluptatum dicta labore minima sint ipsam officia. Minus cumque eligendi aperiam temporibus omni lorem Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quam id commodi expedita consequatur, saepe fugit numquam culpa vero nemo accusamus fugiat, ipsam officia dolorum modi cum aliquam ducimus, tempora quasi Lorem ipsum dolor sit amet, consectetur adipisicing elit. Facere nostrum perferendis sequi impedit voluptatem officia, dolorem accusamus culpa, deserunt sunt pariatur soluta aliquam beatae inventore ut est sapiente ullam quibusdam nihil corporis? Magnam nostrum nesciunt voluptatem quibusdam facere. Aut sed veritatis necessitatibus possimus maiores nostrum libero fugiat ad enim repudiandae inventore reprehenderit, repellat iure, fuga minus deleniti debitis, recusandae quo ipsam. Recusandae debitis sequi, assumenda obcaecati odit doloribus ipsum, nihil nulla, blanditiis, atque voluptates natus. Ullam placeat fugiat laudantium eaque doloremque a soluta at, corporis ducimus ex nemo explicabo. Ducimus atque aut reiciendis dolore, iusto impedit eum voluptates sequi consectetur labore, odit error numquam illo ea itaque earum molestias quae. Itaque perspiciatis illo, nihil inventore est deleniti minus, quas sint molestiae facilis voluptas numquam possimus quis repudiandae saepe! Facilis repellat odit ea incidunt ducimus, totam consectetur labore veniam dolorem suscipit deserunt rem eos neque iusto unde expedita accusantium, cum repellendus blanditiis, impedit accusamus eius odio! Incidunt itaque, optio quidem eaque quam libero, odit quos iusto rerum at fugit numquam eius. Quas earum ducimus vel maxime esse veniam doloribus nihil, sunt autem expedita incidunt ipsa minus architecto consequuntur, fugit perferendis? Ea neque culpa ab obcaecati harum dolor eius, excepturi incidunt voluptatum.',
+        'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Provident fugit alias quidem ea facere, deleniti quam ipsam vel suscipit optio aliquam minima aspernatur repellendus distinctio accusamus dolores tempore accusantium. Impedi lorem  Lorem ipsum dolor sit amet, consectetur adipisicing elit. Laborum nisi, facilis, suscipit ipsum quaerat adipisci inventore eveniet provident nesciunt dolorem, blanditiis voluptatem asperiores? Velit sequi, doloribus, et aut quod ducimus Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eaque repudiandae eveniet in ipsum sequi quia minus nesciunt aliquid, non, laudantium nam eum quo necessitatibus reprehenderit obcaecati sapiente rem sunt excepturi, ex dolore quibusdam nemo earum odit et. Placeat delectus itaque natus voluptas, omnis ad nostrum, rem perferendis eos laborum cum, incidunt autem voluptatem commodi dignissimos. Totam odio, quidem quasi ratione est eum nesciunt at ullam similique reprehenderit! Pariatur distinctio repudiandae quidem minima dolore possimus commodi, veniam quos cupiditate ducimus rerum qui fugiat labore perspiciatis nemo itaque aliquam ea enim, amet consequatur eos obcaecati. Et recusandae, ipsam unde debitis ipsa perferendis odit provident accusantium necessitatibus, similique ducimus doloribus maxime, incidunt laudantium modi! Cum quos inventore alias ut quam tenetur magni pariatur. Soluta beatae quod voluptate animi ipsa impedit! Dolorem vel error, possimus nihil quia, obcaecati, itaque illo sit, beatae quaerat perspiciatis quis nesciunt velit distinctio repudiandae sequi nisi. Recusandae facere asperiores fuga sapiente tempora voluptates perspiciatis eius praesentium porro, unde maxime veniam minima cupiditate enim nisi explicabo beatae deserunt eum laboriosam saepe illo vel repellendus assumenda corporis. Animi nemo impedit maiores quisquam velit neque excepturi corporis quae enim earum quo laborum molestias, harum suscipit debitis dolore necessitatibus quasi. Facilis quis, quas.',
         'img/1p.jpg',
         Ivan.fullName(),
         Ivan.ava(),
@@ -56,7 +56,9 @@ var fifthPost = new PostsList(
         new Date().getTime(), 14, 0, 4, []);
 
 var allPostsArr = [firstPost, secondPost, thirdPost, fourthPost, fifthPost];
-// localStorage.setItem('allPosts', ko.toJSON(allPostsArr));
+if(!localStorage.allPosts){
+    localStorage.setItem('allPosts', ko.toJSON(allPostsArr));
+}
 var newAllPostsArr = [];
 var allPosts = ko.utils.parseJson(localStorage.getItem('allPosts'));
 
@@ -69,7 +71,20 @@ function commentsMaker (array) {
     for (var i = 0; i < allPosts.length; i++) {
         var myArray = array || allPosts[i].commentsArray;
 
-        newAllPostsArr.push(new PostsList(allPosts[i].post_header, allPosts[i].post_main, allPosts[i].articleImg, allPosts[i].author, allPosts[i].ava, allPosts[i].timestamp, allPosts[i].commonRate, allPosts[i].rate, allPosts[i].countPeopleRate, myArray));
+        newAllPostsArr.push(
+            new PostsList(
+                allPosts[i].post_header,
+                allPosts[i].post_main,
+                allPosts[i].articleImg,
+                allPosts[i].author,
+                allPosts[i].ava,
+                allPosts[i].timestamp,
+                allPosts[i].commonRate,
+                allPosts[i].rate,
+                allPosts[i].countPeopleRate,
+                myArray
+            )
+        );
     }
 }
 
@@ -86,11 +101,10 @@ if (allPosts) {
                 )
             );
         }
-        console.log(observableComment);
         commentsMaker(observableComment);
     } else {
         commentsMaker();
-        }
+    }
 }
 
 function Comment (author, authorAva, text, time) {
@@ -160,6 +174,7 @@ function ViewModel () {
 
         this.ratingSetted(true);
         this.totalRate(parseFloat(((this.commonRate + this.rate()) / (this.countPeopleRate + 1)).toFixed(2)));
+
         localStorage.setItem('allPosts', ko.toJSON(self.posts()));
     };
 
@@ -175,7 +190,7 @@ function ViewModel () {
 
     self.addPost = function () {
 
-        newPost = new PostsList(self.title(), self.text(), self.img(), myInfo.fullName, myInfo.ava, new Date().getTime(), 0, 0, 0, []);
+        var newPost = new PostsList(self.title(), self.text(), self.img(), myInfo.fullName, myInfo.ava, new Date().getTime(), 0, 0, 0, []);
         newAllPostsArr.push(newPost);
         localStorage.setItem('allPosts', ko.toJSON(newAllPostsArr));
         self.readVisiblity(true);
@@ -195,22 +210,30 @@ function ViewModel () {
     self.editedCommentText = ko.observable('');
 
     self.addComment = function () {
-        this.commentsArray.unshift(new Comment(myInfo.fullName, myInfo.ava, self.newCommentText(), new Date()));
+        var newComment = new Comment(myInfo.fullName, myInfo.ava, self.newCommentText(), new Date());
+        this.commentsArray.unshift(newComment);
         self.newCommentText('');
+        localStorage.setItem('allPosts', ko.toJSON(newAllPostsArr));
     };
 
     self.editComment = function () {
         this.editCommentVisibility(true);
         self.editedCommentText(this.commentText());
+        localStorage.setItem('allPosts', ko.toJSON(newAllPostsArr));
+
     };
 
     self.saveEditedComment = function () {
         this.commentText(self.editedCommentText());
         this.editCommentVisibility(false);
+        localStorage.setItem('allPosts', ko.toJSON(newAllPostsArr));
+
     };
 
     self.deleteComment = function () {
         self.posts()[thisHash].commentsArray.remove(this);
+        localStorage.setItem('allPosts', ko.toJSON(newAllPostsArr));
+
     };
 }
 
@@ -401,3 +424,8 @@ if (myInfo) {
     personalInfo.ava(myInfo.ava);
     personalInfo.profileVisibility(true);
 }
+function returnStorageToDefault () {
+    localStorage.allPosts = '';
+    window.location.reload();
+}
+$('.returnToDefault').click(returnStorageToDefault)
